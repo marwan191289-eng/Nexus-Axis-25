@@ -167,7 +167,7 @@ export default function About() {
                   <img
                     src={person.img}
                     alt={person.name}
-                    className="w-full h-64 md:h-full object-cover object-top group-hover:scale-105 transition-transform duration-700"
+                    className="w-full h-64 md:h-full object-cover object-top grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out"
                   />
                 </div>
                 <div className="p-8 flex flex-col justify-between">
