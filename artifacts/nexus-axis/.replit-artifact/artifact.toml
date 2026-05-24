@@ -1,0 +1,31 @@
+kind = "web"
+previewPath = "/"
+title = "Nexus Axis Legal"
+version = "1.0.0"
+id = "artifacts/nexus-axis"
+router = "path"
+
+[[integratedSkills]]
+name = "react-vite"
+version = "1.0.0"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 18274
+
+[services.development]
+run = "pnpm --filter @workspace/nexus-axis run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/nexus-axis", "run", "build" ]
+publicDir = "artifacts/nexus-axis/dist/public"
+serve = "static"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "18274"
+BASE_PATH = "/"

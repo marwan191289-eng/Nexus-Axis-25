@@ -1,0 +1,8 @@
+uploads = []
+outputs = []
+
+[[generated]]
+id = "tgDnspHpfm-RaQot0tKle"
+uri = "file://artifacts/nexus-axis/public/hero.png"
+type = "image"
+title = "Law firm dark abstract hero"

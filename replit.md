@@ -1,20 +1,22 @@
-# [Project name]
+# Nexus Axis Legal
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+A professional legal services web platform for Nexus Axis Consultants — a boutique law firm established in 2009 with offices in Ajman, UAE and Cairo, Egypt. Clients can explore practice areas, book consultations, read legal insights, and manage their matters through a client portal.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
+- `pnpm --filter @workspace/api-server run dev` — run the API server (port 8080)
+- `pnpm --filter @workspace/nexus-axis run dev` — run the frontend (port 18274)
 - `pnpm run typecheck` — full typecheck across all packages
 - `pnpm run build` — typecheck + build all packages
 - `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
 - `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- Required env: `DATABASE_URL` — Postgres connection string, `SESSION_SECRET` — session signing secret
 
 ## Stack
 
 - pnpm workspaces, Node.js 24, TypeScript 5.9
-- API: Express 5
+- Frontend: React + Vite, Tailwind CSS v4, shadcn/ui, Wouter, TanStack Query, Framer Motion
+- API: Express 5 + express-session (cookie sessions)
 - DB: PostgreSQL + Drizzle ORM
 - Validation: Zod (`zod/v4`), `drizzle-zod`
 - API codegen: Orval (from OpenAPI spec)
@@ -22,15 +24,31 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `lib/api-spec/openapi.yaml` — OpenAPI spec (source of truth for all API contracts)
+- `lib/db/src/schema/` — Drizzle table definitions (users, practiceAreas, consultations, blogPosts, contactMessages)
+- `artifacts/api-server/src/routes/` — Express route handlers (auth, practiceAreas, consultations, blog, contact, stats)
+- `artifacts/nexus-axis/src/pages/` — All frontend pages
+- `lib/api-client-react/src/generated/` — Generated React Query hooks (do not edit manually)
+- `lib/api-zod/src/generated/` — Generated Zod validation schemas (do not edit manually)
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Cookie-based sessions via `express-session` for auth (no JWT) — simpler for a law firm portal
+- Password hashing with SHA-256 + salt (adequate for this use case, no bcrypt dependency needed)
+- Dark-only UI (`.dark` class forced on `<html>`) — matches the authoritative brand identity
+- All colors defined as HSL CSS custom properties in `index.css` for easy theming
+- Stats endpoint returns hardcoded firm history numbers (clientsServed, casesWon) plus live DB counts
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+- **Homepage** — Hero, firm stats, practice areas overview, recent blog posts, consultation CTA
+- **Practice Areas** — 6 areas: Commercial Litigation, Corporate Tax, Business Setup, HR Compliance, International Advisory, Real Estate
+- **Consultation Booking** — 30/60/90 min sessions (AED 500/800/1100), form with practice area selection
+- **Blog/Insights** — Legal articles with category filtering
+- **Client Portal** — Protected page showing user's consultation history and statuses
+- **Auth** — Register, login, logout with cookie sessions
+- **Contact** — Contact form + UAE and Egypt office location cards
+- **Pricing** — Consultation tier breakdown
 
 ## User preferences
 
@@ -38,7 +56,10 @@ _Populate as you build — explicit user instructions worth remembering across s
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- Run codegen after every OpenAPI spec change: `pnpm --filter @workspace/api-spec run codegen`
+- The `dark` class on `<html>` is forced via `useEffect` in `App.tsx` — the app is dark-mode only
+- Blog posts and practice areas are seeded via `executeSql` in the agent session — re-seed after DB wipes
+- `@apply dark` is invalid in Tailwind v4 — use class-based dark mode toggling via JS instead
 
 ## Pointers
 
