@@ -1,9 +1,10 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useGetStats, useListPracticeAreas, useListBlogPosts } from "@workspace/api-client-react";
-import { ArrowRight, Scale, Briefcase, FileText, ChevronRight, MapPin } from "lucide-react";
+import { ArrowRight, Briefcase, ChevronRight, MapPin, Scale } from "lucide-react";
 import { MainLayout } from "@/components/layout/main-layout";
 import { Skeleton } from "@/components/ui/skeleton";
+import libraryImg from "../assets/library.jpg";
 
 export default function Home() {
   const { data: stats, isLoading: statsLoading } = useGetStats();
@@ -16,8 +17,8 @@ export default function Home() {
       <section className="relative min-h-[90vh] flex items-center pt-20 pb-32 overflow-hidden">
         <div className="absolute inset-0 z-0">
           <img 
-            src="/hero.png" 
-            alt="Nexus Axis Legal" 
+            src={libraryImg} 
+            alt="Nexus Axis Consultants" 
             className="w-full h-full object-cover opacity-40 mix-blend-overlay"
           />
           <div className="absolute inset-0 bg-gradient-to-t from-background via-background/80 to-transparent" />

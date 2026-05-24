@@ -65,7 +65,7 @@ export default function BlogPostDetail() {
           <div className="flex items-center gap-4 border-l-2 border-primary pl-6 py-2">
             <div>
               <p className="font-medium text-foreground">{post.author}</p>
-              <p className="text-sm text-muted-foreground">Partner, Nexus Axis Legal</p>
+              <p className="text-sm text-muted-foreground">Partner, Nexus Axis Consultants</p>
             </div>
           </div>
         </header>

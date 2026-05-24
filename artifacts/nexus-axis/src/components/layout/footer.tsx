@@ -1,5 +1,6 @@
 import { Link } from "wouter";
-import { ShieldAlert, MapPin, Phone, Mail } from "lucide-react";
+import { MapPin, Phone, Mail } from "lucide-react";
+import logoPath from "../../assets/logo.png";
 
 export function Footer() {
   return (
@@ -8,13 +9,10 @@ export function Footer() {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-12">
           <div className="md:col-span-1 space-y-4">
             <Link href="/" className="flex items-center gap-2 group">
-              <ShieldAlert className="h-8 w-8 text-primary group-hover:text-primary/80 transition-colors" />
-              <span className="font-serif text-xl font-bold tracking-tight text-foreground">
-                Nexus Axis <span className="text-primary">Legal</span>
-              </span>
+              <img src={logoPath} alt="Nexus Axis Consultants" className="h-14 w-auto" />
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Established in 2009. A professional legal services platform delivering sharp, authoritative, and reassuring representation for high-stakes matters.
+              Strategic Legal &amp; Corporate Counsel serving the UAE and Egypt since 2009.
             </p>
           </div>
 

@@ -10,7 +10,7 @@ export default function About() {
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6">Uncompromising Representation</h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              Since 2009, Nexus Axis Legal has established itself as a premier boutique firm operating across the Middle East and North Africa.
+              Since 2009, Nexus Axis Consultants has established itself as a premier boutique firm operating across the Middle East and North Africa.
             </p>
           </div>
         </div>

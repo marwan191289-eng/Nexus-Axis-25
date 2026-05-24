@@ -1,8 +1,9 @@
 import { Link, useLocation } from "wouter";
 import { useGetMe, useLogout } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
-import { ShieldAlert, Menu, X, User as UserIcon } from "lucide-react";
+import { Menu, X, User as UserIcon } from "lucide-react";
 import { useState } from "react";
+import logoPath from "../../assets/logo.png";
 
 export function Navbar() {
   const [location] = useLocation();
@@ -22,10 +23,7 @@ export function Navbar() {
     <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-2 group">
-          <ShieldAlert className="h-8 w-8 text-primary group-hover:text-primary/80 transition-colors" />
-          <span className="font-serif text-xl font-bold tracking-tight text-foreground">
-            Nexus Axis <span className="text-primary">Legal</span>
-          </span>
+          <img src={logoPath} alt="Nexus Axis Consultants" className="h-12 w-auto" />
         </Link>
 
         {/* Desktop Nav */}
