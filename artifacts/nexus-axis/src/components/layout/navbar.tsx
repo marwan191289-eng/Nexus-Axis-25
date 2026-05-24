@@ -1,8 +1,11 @@
 import { Link, useLocation } from "wouter";
 import { useGetMe, useLogout } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, User as UserIcon } from "lucide-react";
-import { useState } from "react";
+import { Menu, X, User as UserIcon, Sun, Moon, ChevronDown, Globe } from "lucide-react";
+import { useState, useRef, useEffect } from "react";
+import { useTranslation } from "react-i18next";
+import { useTheme } from "@/hooks/use-theme";
+import { LANGUAGES, applyLanguageToDOM } from "@/i18n/index";
 import logoPath from "../../assets/logo.png";
 
 export function Navbar() {
@@ -10,13 +13,35 @@ export function Navbar() {
   const { data: user, isLoading } = useGetMe();
   const logout = useLogout();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+  const [isLangOpen, setIsLangOpen] = useState(false);
+  const langRef = useRef<HTMLDivElement>(null);
+  const { t, i18n } = useTranslation();
+  const { theme, toggle } = useTheme();
+
+  const currentLang = LANGUAGES.find((l) => l.code === i18n.language) ?? LANGUAGES[0];
+
+  const changeLang = (code: string) => {
+    i18n.changeLanguage(code);
+    applyLanguageToDOM(code);
+    setIsLangOpen(false);
+  };
+
+  useEffect(() => {
+    function handleClickOutside(e: MouseEvent) {
+      if (langRef.current && !langRef.current.contains(e.target as Node)) {
+        setIsLangOpen(false);
+      }
+    }
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => document.removeEventListener("mousedown", handleClickOutside);
+  }, []);
 
   const navLinks = [
-    { href: "/practice-areas", label: "Practice Areas" },
-    { href: "/about", label: "About Us" },
-    { href: "/pricing", label: "Pricing" },
-    { href: "/blog", label: "Insights" },
-    { href: "/contact", label: "Contact" },
+    { href: "/practice-areas", label: t("nav.practiceAreas") },
+    { href: "/about", label: t("nav.about") },
+    { href: "/pricing", label: t("nav.pricing") },
+    { href: "/blog", label: t("nav.insights") },
+    { href: "/contact", label: t("nav.contact") },
   ];
 
   return (
@@ -35,8 +60,8 @@ export function Navbar() {
         </Link>
 
         {/* Desktop Nav */}
-        <div className="hidden md:flex items-center gap-8">
-          <div className="flex gap-6">
+        <div className="hidden md:flex items-center gap-6">
+          <div className="flex gap-5">
             {navLinks.map((link) => (
               <Link
                 key={link.href}
@@ -50,38 +75,83 @@ export function Navbar() {
             ))}
           </div>
 
-          <div className="flex items-center gap-4 border-l border-border pl-6">
+          <div className="flex items-center gap-2 border-l border-border pl-5">
+            {/* Theme toggle */}
+            <button
+              onClick={toggle}
+              className="h-9 w-9 flex items-center justify-center rounded-none border border-border text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors"
+              aria-label="Toggle theme"
+            >
+              {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+            </button>
+
+            {/* Language selector */}
+            <div ref={langRef} className="relative">
+              <button
+                onClick={() => setIsLangOpen(!isLangOpen)}
+                className="h-9 px-3 flex items-center gap-1.5 border border-border text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors text-sm"
+              >
+                <Globe className="h-3.5 w-3.5" />
+                <span className="font-medium">{currentLang.code.toUpperCase()}</span>
+                <ChevronDown className={`h-3 w-3 transition-transform ${isLangOpen ? "rotate-180" : ""}`} />
+              </button>
+
+              {isLangOpen && (
+                <div className="absolute right-0 top-full mt-1 w-44 bg-popover border border-border shadow-lg z-50">
+                  {LANGUAGES.map((lang) => (
+                    <button
+                      key={lang.code}
+                      onClick={() => changeLang(lang.code)}
+                      className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-accent transition-colors text-left ${
+                        lang.code === i18n.language ? "text-primary font-semibold" : "text-foreground"
+                      }`}
+                    >
+                      <span className="text-base">{lang.flag}</span>
+                      <span className="flex-1">{lang.nativeLabel}</span>
+                    </button>
+                  ))}
+                </div>
+              )}
+            </div>
+
             {!isLoading && (
               <>
                 {user ? (
-                  <div className="flex items-center gap-4">
+                  <div className="flex items-center gap-3">
                     <Link href="/portal" className="text-sm font-medium text-foreground hover:text-primary flex items-center gap-2">
                       <UserIcon className="h-4 w-4" />
-                      Client Portal
+                      {t("nav.clientPortal")}
                     </Link>
                     <Button variant="ghost" size="sm" onClick={() => logout.mutate(undefined, { onSuccess: () => window.location.href = "/" })}>
-                      Sign Out
+                      {t("nav.signOut")}
                     </Button>
                   </div>
                 ) : (
-                  <>
-                    <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-primary">
-                      Client Login
-                    </Link>
-                  </>
+                  <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-primary">
+                    {t("nav.clientLogin")}
+                  </Link>
                 )}
                 <Link href="/consultation">
-                  <Button className="font-serif">Book Consultation</Button>
+                  <Button className="font-serif">{t("nav.bookConsultation")}</Button>
                 </Link>
               </>
             )}
           </div>
         </div>
 
-        {/* Mobile Toggle */}
-        <button className="md:hidden p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
-          {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
-        </button>
+        {/* Mobile Controls */}
+        <div className="md:hidden flex items-center gap-2">
+          <button
+            onClick={toggle}
+            className="h-9 w-9 flex items-center justify-center border border-border text-muted-foreground"
+            aria-label="Toggle theme"
+          >
+            {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
+          </button>
+          <button className="p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+            {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
+          </button>
+        </div>
       </div>
 
       {/* Mobile Nav */}
@@ -97,24 +167,44 @@ export function Navbar() {
               {link.label}
             </Link>
           ))}
-          <div className="h-px bg-border my-2" />
+
+          {/* Language grid for mobile */}
+          <div className="h-px bg-border my-1" />
+          <div className="grid grid-cols-4 gap-2 px-2">
+            {LANGUAGES.map((lang) => (
+              <button
+                key={lang.code}
+                onClick={() => { changeLang(lang.code); setIsMobileMenuOpen(false); }}
+                className={`flex flex-col items-center gap-1 py-2 px-1 border transition-colors text-xs font-semibold ${
+                  lang.code === i18n.language
+                    ? "border-primary text-primary bg-primary/5"
+                    : "border-border text-muted-foreground hover:border-primary/50"
+                }`}
+              >
+                <span className="text-lg">{lang.flag}</span>
+                <span>{lang.code.toUpperCase()}</span>
+              </button>
+            ))}
+          </div>
+
+          <div className="h-px bg-border my-1" />
           {user ? (
             <>
               <Link href="/portal" className="text-lg font-medium text-foreground hover:text-primary px-2 py-1 flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
                 <UserIcon className="h-5 w-5" />
-                Client Portal
+                {t("nav.clientPortal")}
               </Link>
               <Button variant="ghost" className="justify-start px-2 py-1" onClick={() => logout.mutate(undefined, { onSuccess: () => window.location.href = "/" })}>
-                Sign Out
+                {t("nav.signOut")}
               </Button>
             </>
           ) : (
             <Link href="/login" className="text-lg font-medium text-muted-foreground hover:text-primary px-2 py-1" onClick={() => setIsMobileMenuOpen(false)}>
-              Client Login
+              {t("nav.clientLogin")}
             </Link>
           )}
           <Link href="/consultation" onClick={() => setIsMobileMenuOpen(false)}>
-            <Button className="w-full mt-2 font-serif">Book Consultation</Button>
+            <Button className="w-full mt-2 font-serif">{t("nav.bookConsultation")}</Button>
           </Link>
         </div>
       )}

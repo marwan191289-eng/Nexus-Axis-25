@@ -6,6 +6,7 @@ import { MainLayout } from "@/components/layout/main-layout";
 import { Skeleton } from "@/components/ui/skeleton";
 import libraryImg from "../assets/library.jpg";
 import { useCountUp } from "@/hooks/use-count-up";
+import { useTranslation } from "react-i18next";
 
 interface StatCounterProps {
   target: number;
@@ -33,9 +34,10 @@ function StatCounter({ target, suffix = "", label, loading }: StatCounterProps) 
 }
 
 export default function Home() {
+  const { t } = useTranslation();
   const { data: stats, isLoading: statsLoading } = useGetStats();
   const { data: areas, isLoading: areasLoading } = useListPracticeAreas();
-  const { data: posts, isLoading: postsLoading } = useListBlogPosts({ query: { queryKey: ["blog-posts", { limit: 3 }] }}); // using array key for now, we don't have getListBlogPostsQueryKey from Orval correctly imported but let's assume it's listBlogPosts
+  const { data: posts, isLoading: postsLoading } = useListBlogPosts({ query: { queryKey: ["blog-posts", { limit: 3 }] }});
 
   return (
     <MainLayout>
@@ -55,28 +57,28 @@ export default function Home() {
           <div className="max-w-3xl space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
             <div className="inline-flex items-center gap-2 px-3 py-1 text-sm border border-primary/30 text-primary rounded-full bg-primary/5 backdrop-blur-sm">
               <Scale className="h-4 w-4" />
-              <span>Established 2009 &mdash; UAE & Egypt</span>
+              <span>{t("hero.badge")}</span>
             </div>
             
             <h1 className="text-5xl md:text-7xl font-serif font-bold tracking-tight text-foreground leading-[1.1]">
-              Controlled authority.<br />
-              <span className="text-muted-foreground">Unwavering precision.</span>
+              {t("hero.title1")}<br />
+              <span className="text-muted-foreground">{t("hero.title2")}</span>
             </h1>
             
             <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
-              We provide decisive, high-stakes legal representation. When everything is on the line, we are the firm you want in your corner.
+              {t("hero.subtitle")}
             </p>
             
             <div className="flex flex-col sm:flex-row gap-4 pt-4">
               <Link href="/consultation">
                 <Button size="lg" className="w-full sm:w-auto font-serif text-lg h-14 px-8">
-                  Schedule Consultation
+                  {t("hero.cta")}
                   <ArrowRight className="ml-2 h-5 w-5" />
                 </Button>
               </Link>
               <Link href="/practice-areas">
                 <Button variant="outline" size="lg" className="w-full sm:w-auto h-14 px-8 border-primary/20 hover:bg-primary/10">
-                  Our Expertise
+                  {t("hero.expertise")}
                 </Button>
               </Link>
             </div>
@@ -89,32 +91,13 @@ export default function Home() {
         <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 pointer-events-none" />
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <p className="text-xs tracking-[0.3em] uppercase text-primary mb-10 font-medium text-center">
-            By The Numbers
+            {t("stats.byTheNumbers")}
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-0 md:divide-x divide-border/50">
-            <StatCounter
-              target={17}
-              suffix="+"
-              label="Years Established"
-              loading={statsLoading}
-            />
-            <StatCounter
-              target={stats?.clientsServed ?? 1200}
-              suffix="+"
-              label="Clients Served"
-              loading={statsLoading}
-            />
-            <StatCounter
-              target={stats?.casesWon ?? 890}
-              suffix="+"
-              label="Cases Won"
-              loading={statsLoading}
-            />
-            <StatCounter
-              target={stats?.practiceAreas ?? 6}
-              label="Practice Areas"
-              loading={statsLoading}
-            />
+            <StatCounter target={17} suffix="+" label={t("stats.years")} loading={statsLoading} />
+            <StatCounter target={stats?.clientsServed ?? 1200} suffix="+" label={t("stats.clients")} loading={statsLoading} />
+            <StatCounter target={stats?.casesWon ?? 890} suffix="+" label={t("stats.cases")} loading={statsLoading} />
+            <StatCounter target={stats?.practiceAreas ?? 18} label={t("stats.areas")} loading={statsLoading} />
           </div>
         </div>
       </section>

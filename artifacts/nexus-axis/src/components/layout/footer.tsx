@@ -1,8 +1,10 @@
 import { Link } from "wouter";
 import { MapPin, Phone, Mail } from "lucide-react";
 import logoPath from "../../assets/logo.png";
+import { useTranslation } from "react-i18next";
 
 export function Footer() {
+  const { t } = useTranslation();
   return (
     <footer className="bg-card border-t border-border mt-auto">
       <div className="container mx-auto px-4 md:px-8 py-12 lg:py-16">
@@ -12,22 +14,23 @@ export function Footer() {
               <img src={logoPath} alt="Nexus Axis Consultants" className="h-14 w-auto" />
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed">
-              Strategic Legal &amp; Corporate Counsel serving the UAE and Egypt since 2009.
+              {t("footer.tagline")}
             </p>
           </div>
 
           <div>
-            <h3 className="font-serif text-lg font-semibold mb-4 text-foreground">Practice Areas</h3>
+            <h3 className="font-serif text-lg font-semibold mb-4 text-foreground">{t("footer.practiceAreas")}</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">Corporate Law</Link></li>
-              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">Dispute Resolution</Link></li>
+              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">Commercial Litigation</Link></li>
+              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">Corporate Tax</Link></li>
+              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">Maritime Law</Link></li>
+              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">Criminal Defense</Link></li>
               <li><Link href="/practice-areas" className="hover:text-primary transition-colors">Real Estate</Link></li>
-              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">Financial Law</Link></li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-serif text-lg font-semibold mb-4 text-foreground">Offices</h3>
+            <h3 className="font-serif text-lg font-semibold mb-4 text-foreground">{t("footer.offices")}</h3>
             <ul className="space-y-4 text-sm text-muted-foreground">
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 mt-0.5 text-primary shrink-0" />
@@ -35,13 +38,13 @@ export function Footer() {
               </li>
               <li className="flex items-start gap-2">
                 <MapPin className="h-4 w-4 mt-0.5 text-primary shrink-0" />
-                <span>Nasr City<br />Cairo, Egypt</span>
+                <span>Al Tahrir Building<br />Cairo, Egypt</span>
               </li>
             </ul>
           </div>
 
           <div>
-            <h3 className="font-serif text-lg font-semibold mb-4 text-foreground">Contact</h3>
+            <h3 className="font-serif text-lg font-semibold mb-4 text-foreground">{t("footer.contact")}</h3>
             <ul className="space-y-4 text-sm text-muted-foreground">
               <li className="flex items-center gap-2">
                 <Phone className="h-4 w-4 text-primary shrink-0" />
@@ -56,10 +59,10 @@ export function Footer() {
         </div>
 
         <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row items-center justify-between text-xs text-muted-foreground gap-4">
-          <p>&copy; {new Date().getFullYear()} Nexus Axis Consultants. All rights reserved.</p>
+          <p>&copy; {new Date().getFullYear()} Nexus Axis Consultants. {t("footer.rights")}</p>
           <div className="flex gap-4">
-            <Link href="#" className="hover:text-primary transition-colors">Privacy Policy</Link>
-            <Link href="#" className="hover:text-primary transition-colors">Terms of Service</Link>
+            <Link href="#" className="hover:text-primary transition-colors">{t("footer.privacy")}</Link>
+            <Link href="#" className="hover:text-primary transition-colors">{t("footer.terms")}</Link>
           </div>
         </div>
       </div>

@@ -48,13 +48,6 @@ function getIcon(iconName: string | null | undefined): LucideIcon {
   return ICON_MAP[iconName] ?? ICON_MAP[iconName.charAt(0).toUpperCase() + iconName.slice(1)] ?? Briefcase;
 }
 
-const CATEGORIES = [
-  { label: "All", value: "all" },
-  { label: "Litigation", value: "litigation" },
-  { label: "Corporate", value: "corporate" },
-  { label: "Specialist", value: "specialist" },
-];
-
 const CATEGORY_MAP: Record<number, string> = {
   1: "litigation",
   2: "corporate",
@@ -77,10 +70,19 @@ const CATEGORY_MAP: Record<number, string> = {
 };
 
 import { useState } from "react";
+import { useTranslation } from "react-i18next";
 
 export default function PracticeAreas() {
   const { data: areas, isLoading } = useListPracticeAreas();
   const [activeCategory, setActiveCategory] = useState("all");
+  const { t } = useTranslation();
+
+  const CATEGORIES = [
+    { label: t("practiceAreas.all"), value: "all" },
+    { label: t("practiceAreas.litigation"), value: "litigation" },
+    { label: t("practiceAreas.corporate"), value: "corporate" },
+    { label: t("practiceAreas.specialist"), value: "specialist" },
+  ];
 
   const filtered = areas?.filter((area) =>
     activeCategory === "all" ? true : CATEGORY_MAP[area.id] === activeCategory
@@ -94,17 +96,17 @@ export default function PracticeAreas() {
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <div className="max-w-3xl">
             <p className="text-xs tracking-[0.3em] uppercase text-primary mb-4 font-medium">
-              Full-Spectrum Legal Services
+              {t("practiceAreas.badge")}
             </p>
             <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6">
-              Practice Areas
+              {t("practiceAreas.title")}
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed">
-              From criminal defense to maritime arbitration, corporate structuring to family law — we provide authoritative representation across every domain where legal excellence matters.
+              {t("practiceAreas.subtitle")}
             </p>
             <div className="mt-6 flex items-center gap-2 text-sm text-muted-foreground">
               <span className="inline-block h-px w-8 bg-primary/60" />
-              <span>{areas?.length ?? 18} specialized practice areas</span>
+              <span>{areas?.length ?? 18} {t("practiceAreas.specialized")}</span>
             </div>
           </div>
         </div>
