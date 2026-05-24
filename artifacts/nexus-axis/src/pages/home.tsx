@@ -5,6 +5,32 @@ import { ArrowRight, Briefcase, ChevronRight, MapPin, Scale } from "lucide-react
 import { MainLayout } from "@/components/layout/main-layout";
 import { Skeleton } from "@/components/ui/skeleton";
 import libraryImg from "../assets/library.jpg";
+import { useCountUp } from "@/hooks/use-count-up";
+
+interface StatCounterProps {
+  target: number;
+  suffix?: string;
+  label: string;
+  loading: boolean;
+}
+
+function StatCounter({ target, suffix = "", label, loading }: StatCounterProps) {
+  const { display, ref } = useCountUp({ target, suffix, duration: 2200 });
+  return (
+    <div ref={ref as React.RefObject<HTMLDivElement>} className="pl-8 first:pl-0 flex flex-col gap-3 group">
+      {loading ? (
+        <Skeleton className="h-14 w-28 bg-primary/10" />
+      ) : (
+        <div className="text-5xl md:text-6xl font-serif font-bold text-primary tabular-nums">
+          {display}
+        </div>
+      )}
+      <div className="text-xs uppercase tracking-[0.2em] text-muted-foreground font-semibold">
+        {label}
+      </div>
+    </div>
+  );
+}
 
 export default function Home() {
   const { data: stats, isLoading: statsLoading } = useGetStats();
@@ -59,28 +85,36 @@ export default function Home() {
       </section>
 
       {/* Stats Section */}
-      <section className="py-24 bg-card/50 border-y border-border relative">
-        <div className="container mx-auto px-4 md:px-8">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8 md:gap-12 divide-x divide-border/50">
-            {[
-              { label: "Years Established", value: stats?.yearsEstablished || 15, loading: statsLoading },
-              { label: "Clients Served", value: stats?.clientsServed || "2.5k+", loading: statsLoading },
-              { label: "Cases Won", value: stats?.casesWon || "98%", loading: statsLoading },
-              { label: "Practice Areas", value: stats?.practiceAreas || 8, loading: statsLoading },
-            ].map((stat, i) => (
-              <div key={i} className="pl-8 first:pl-0 flex flex-col gap-2">
-                {stat.loading ? (
-                  <Skeleton className="h-12 w-24 bg-primary/10" />
-                ) : (
-                  <div className="text-4xl md:text-5xl font-serif font-bold text-primary">
-                    {stat.value}
-                  </div>
-                )}
-                <div className="text-sm uppercase tracking-widest text-muted-foreground font-semibold">
-                  {stat.label}
-                </div>
-              </div>
-            ))}
+      <section className="py-24 bg-card/50 border-y border-border relative overflow-hidden">
+        <div className="absolute inset-0 bg-gradient-to-r from-primary/5 via-transparent to-primary/5 pointer-events-none" />
+        <div className="container mx-auto px-4 md:px-8 relative z-10">
+          <p className="text-xs tracking-[0.3em] uppercase text-primary mb-10 font-medium text-center">
+            By The Numbers
+          </p>
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-0 md:divide-x divide-border/50">
+            <StatCounter
+              target={17}
+              suffix="+"
+              label="Years Established"
+              loading={statsLoading}
+            />
+            <StatCounter
+              target={stats?.clientsServed ?? 1200}
+              suffix="+"
+              label="Clients Served"
+              loading={statsLoading}
+            />
+            <StatCounter
+              target={stats?.casesWon ?? 890}
+              suffix="+"
+              label="Cases Won"
+              loading={statsLoading}
+            />
+            <StatCounter
+              target={stats?.practiceAreas ?? 6}
+              label="Practice Areas"
+              loading={statsLoading}
+            />
           </div>
         </div>
       </section>
