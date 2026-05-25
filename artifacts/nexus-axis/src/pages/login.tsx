@@ -8,13 +8,15 @@ import { Input } from "@/components/ui/input";
 import { Button } from "@/components/ui/button";
 import { useToast } from "@/hooks/use-toast";
 import { Link, useLocation } from "wouter";
+import { useTranslation } from "react-i18next";
 
 const loginSchema = z.object({
-  email: z.string().email("Invalid email"),
-  password: z.string().min(6, "Password must be at least 6 characters")
+  email: z.string().email(),
+  password: z.string().min(6)
 });
 
 export default function Login() {
+  const { t } = useTranslation();
   const { toast } = useToast();
   const [, setLocation] = useLocation();
   const login = useLogin();
@@ -26,10 +28,8 @@ export default function Login() {
 
   const onSubmit = (data: z.infer<typeof loginSchema>) => {
     login.mutate({ data }, {
-      onSuccess: () => {
-        window.location.href = "/portal"; // force reload to fetch user state
-      },
-      onError: (err) => {
+      onSuccess: () => { window.location.href = "/portal"; },
+      onError: (err: any) => {
         toast({ title: "Authentication Failed", description: err.error || "Invalid credentials", variant: "destructive" });
       }
     });
@@ -42,43 +42,35 @@ export default function Login() {
         
         <div className="w-full max-w-md relative z-10">
           <div className="text-center mb-8">
-            <h1 className="text-3xl font-serif font-bold mb-2">Client Access</h1>
-            <p className="text-muted-foreground">Authenticate to view your matters.</p>
+            <h1 className="text-3xl font-serif font-bold mb-2">{t("auth.loginTitle")}</h1>
+            <p className="text-muted-foreground">{t("auth.loginSubtitle")}</p>
           </div>
 
           <div className="bg-card border border-border p-8">
             <Form {...form}>
               <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-6">
-                <FormField
-                  control={form.control}
-                  name="email"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Email</FormLabel>
-                      <FormControl><Input type="email" {...field} className="bg-background/50" /></FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-                <FormField
-                  control={form.control}
-                  name="password"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormLabel>Password</FormLabel>
-                      <FormControl><Input type="password" {...field} className="bg-background/50" /></FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
+                <FormField control={form.control} name="email" render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("auth.email")}</FormLabel>
+                    <FormControl><Input type="email" {...field} className="bg-background/50" /></FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
+                <FormField control={form.control} name="password" render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>{t("auth.password")}</FormLabel>
+                    <FormControl><Input type="password" {...field} className="bg-background/50" /></FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )} />
                 <Button type="submit" className="w-full h-12 font-serif text-lg" disabled={login.isPending}>
-                  {login.isPending ? "Authenticating..." : "Enter Portal"}
+                  {login.isPending ? t("auth.authenticating") : t("auth.enterPortal")}
                 </Button>
               </form>
             </Form>
             
             <div className="mt-8 text-center text-sm text-muted-foreground">
-              Don't have an account? <Link href="/register" className="text-primary hover:underline">Register here</Link>
+              {t("auth.noAccount")} <Link href="/register" className="text-primary hover:underline">{t("auth.registerHere")}</Link>
             </div>
           </div>
         </div>

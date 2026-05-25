@@ -4,16 +4,15 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useParams, Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, ArrowRight, Briefcase } from "lucide-react";
+import { useTranslation } from "react-i18next";
 
 export default function PracticeAreaDetail() {
+  const { t } = useTranslation();
   const params = useParams();
   const id = parseInt(params.id || "0", 10);
   
   const { data: area, isLoading } = useGetPracticeArea(id, { 
-    query: { 
-      enabled: !!id,
-      queryKey: getGetPracticeAreaQueryKey(id)
-    }
+    query: { enabled: !!id, queryKey: getGetPracticeAreaQueryKey(id) }
   });
 
   if (isLoading) {
@@ -37,9 +36,9 @@ export default function PracticeAreaDetail() {
     return (
       <MainLayout>
         <div className="container mx-auto px-4 md:px-8 py-24 text-center">
-          <h1 className="text-4xl font-serif font-bold mb-4">Practice Area Not Found</h1>
+          <h1 className="text-4xl font-serif font-bold mb-4">{t("practiceAreas.notFound")}</h1>
           <Link href="/practice-areas">
-            <Button variant="outline">Return to Practice Areas</Button>
+            <Button variant="outline">{t("practiceAreas.returnTo")}</Button>
           </Link>
         </div>
       </MainLayout>
@@ -50,7 +49,7 @@ export default function PracticeAreaDetail() {
     <MainLayout>
       <div className="container mx-auto px-4 md:px-8 py-16">
         <Link href="/practice-areas" className="inline-flex items-center text-sm font-medium text-muted-foreground hover:text-foreground mb-12 transition-colors">
-          <ArrowLeft className="mr-2 h-4 w-4" /> Back to Practice Areas
+          <ArrowLeft className="mr-2 h-4 w-4" /> {t("practiceAreas.backTo")}
         </Link>
         
         <div className="grid md:grid-cols-[2fr_1fr] gap-16 items-start">
@@ -74,13 +73,11 @@ export default function PracticeAreaDetail() {
           </div>
           
           <div className="sticky top-32 bg-card border border-border p-8">
-            <h3 className="text-2xl font-serif font-bold mb-4">Require Counsel?</h3>
-            <p className="text-muted-foreground mb-8">
-              Schedule a consultation to discuss your specific matter within {area.title}. We provide discrete, actionable intelligence.
-            </p>
+            <h3 className="text-2xl font-serif font-bold mb-4">{t("practiceAreas.requireCounsel")}</h3>
+            <p className="text-muted-foreground mb-8">{t("practiceAreas.requireDesc")}</p>
             <Link href="/consultation">
               <Button className="w-full h-12 font-serif text-lg">
-                Book Consultation <ArrowRight className="ml-2 h-4 w-4" />
+                {t("practiceAreas.bookBtn")} <ArrowRight className="ml-2 h-4 w-4" />
               </Button>
             </Link>
           </div>

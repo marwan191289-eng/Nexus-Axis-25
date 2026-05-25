@@ -9,6 +9,7 @@ import office2Img from "@assets/office2_1779665186899.jpg";
 import office3Img from "@assets/office3_1779665186900.jpg";
 import partnerOfficeImg from "@assets/partner-office_1779665186900.jpg";
 import receptionImg from "@assets/reception_1779665186901.jpg";
+import { useTranslation } from "react-i18next";
 
 const leadership = [
   {
@@ -45,30 +46,16 @@ const leadership = [
   },
 ];
 
-const values = [
-  {
-    icon: Scale,
-    title: "Precision",
-    body: "Every detail considered. Outcomes delivered with surgical accuracy and deep commercial insight.",
-  },
-  {
-    icon: Building2,
-    title: "Boutique Agility",
-    body: "Large firm capability with the speed and personal attention of a specialized practice.",
-  },
-  {
-    icon: Gavel,
-    title: "Decisive Action",
-    body: "We don't over-analyze when action is required. We strike when advantageous.",
-  },
-  {
-    icon: Globe,
-    title: "MENA Expertise",
-    body: "Dual presence in UAE and Egypt gives us unmatched access across the region's most active markets.",
-  },
-];
-
 export default function About() {
+  const { t } = useTranslation();
+
+  const values = [
+    { icon: Scale, title: t("about.val1Title"), body: t("about.val1Body") },
+    { icon: Building2, title: t("about.val2Title"), body: t("about.val2Body") },
+    { icon: Gavel, title: t("about.val3Title"), body: t("about.val3Body") },
+    { icon: Globe, title: t("about.val4Title"), body: t("about.val4Body") },
+  ];
+
   return (
     <MainLayout>
       {/* Hero */}
@@ -83,13 +70,13 @@ export default function About() {
         <div className="absolute bottom-0 left-0 right-0 container mx-auto px-4 md:px-8 pb-16">
           <div className="max-w-3xl">
             <p className="text-xs tracking-[0.3em] uppercase text-primary mb-4 font-medium">
-              Established 2009 — UAE &amp; Egypt
+              {t("about.badge")}
             </p>
             <h1 className="text-4xl md:text-6xl font-serif font-bold mb-4">
-              Uncompromising Representation
+              {t("about.hero")}
             </h1>
             <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl">
-              Since 2009, Nexus Axis Consultants has established itself as a premier boutique firm operating across the Middle East and North Africa.
+              {t("about.subtitle")}
             </p>
           </div>
         </div>
@@ -100,17 +87,11 @@ export default function About() {
         <div className="container mx-auto px-4 md:px-8">
           <div className="grid md:grid-cols-2 gap-16 items-start mb-24">
             <div>
-              <h2 className="text-3xl md:text-4xl font-serif font-bold mb-8">Our Philosophy</h2>
+              <h2 className="text-3xl md:text-4xl font-serif font-bold mb-8">{t("about.philosophy")}</h2>
               <div className="space-y-6 text-lg text-muted-foreground leading-relaxed">
-                <p>
-                  We do not believe in standard solutions. Every legal challenge presents a unique matrix of risks, opportunities, and constraints. Our role is to map that matrix and execute a strategy that secures our clients' objectives with absolute precision.
-                </p>
-                <p>
-                  Our chambers operate with strict confidentiality and controlled authority. We take on matters where the stakes demand nothing less than complete dedication and elite legal maneuvering.
-                </p>
-                <p>
-                  We measure success by outcomes achieved and lasting value created — never by hours billed.
-                </p>
+                <p>{t("about.philosophyP1")}</p>
+                <p>{t("about.philosophyP2")}</p>
+                <p>{t("about.philosophyP3")}</p>
               </div>
             </div>
 
@@ -149,18 +130,15 @@ export default function About() {
       <section className="py-28 bg-card/30">
         <div className="container mx-auto px-4 md:px-8">
           <div className="mb-16">
-            <p className="text-xs tracking-[0.3em] uppercase text-primary mb-3 font-medium">The Team</p>
-            <h2 className="text-3xl md:text-5xl font-serif font-bold mb-4">Leadership</h2>
-            <p className="text-muted-foreground text-lg max-w-2xl">
-              Our partners combine deep academic credentials with decades of frontline practice in some of the region's most complex matters.
-            </p>
+            <p className="text-xs tracking-[0.3em] uppercase text-primary mb-3 font-medium">{t("about.team")}</p>
+            <h2 className="text-3xl md:text-5xl font-serif font-bold mb-4">{t("about.leadership")}</h2>
+            <p className="text-muted-foreground text-lg max-w-2xl">{t("about.teamDesc")}</p>
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {leadership.map((person) => (
               <div
                 key={person.name}
-                data-testid={`card-leader-${person.name.toLowerCase().replace(/\s+/g, "-")}`}
                 className="group bg-card border border-border hover:border-primary/40 transition-colors overflow-hidden flex flex-col md:flex-row"
               >
                 <div className="md:w-52 shrink-0 overflow-hidden">
@@ -184,10 +162,7 @@ export default function About() {
                   </div>
                   <div className="flex flex-wrap gap-2">
                     {person.areas.map((area) => (
-                      <span
-                        key={area}
-                        className="text-xs px-3 py-1 bg-primary/10 text-primary border border-primary/20 font-medium"
-                      >
+                      <span key={area} className="text-xs px-3 py-1 bg-primary/10 text-primary border border-primary/20 font-medium">
                         {area}
                       </span>
                     ))}
@@ -202,8 +177,8 @@ export default function About() {
       {/* Offices */}
       <section className="py-28">
         <div className="container mx-auto px-4 md:px-8">
-          <p className="text-xs tracking-[0.3em] uppercase text-primary mb-3 font-medium">Locations</p>
-          <h2 className="text-3xl md:text-5xl font-serif font-bold mb-16">Our Strongholds</h2>
+          <p className="text-xs tracking-[0.3em] uppercase text-primary mb-3 font-medium">{t("about.locations")}</p>
+          <h2 className="text-3xl md:text-5xl font-serif font-bold mb-16">{t("about.strongholds")}</h2>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl">
             <div className="bg-card border border-border p-10 group hover:border-primary/50 transition-colors">
@@ -212,13 +187,11 @@ export default function About() {
                   <MapPin className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-serif font-bold">UAE Headquarters</h3>
-                  <p className="text-muted-foreground text-sm">Established 2009</p>
+                  <h3 className="text-2xl font-serif font-bold">{t("about.uaeHQ")}</h3>
+                  <p className="text-muted-foreground text-sm">{t("about.uaeEstablished")}</p>
                 </div>
               </div>
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                Strategically positioned in Ajman, our UAE office handles complex corporate structuring, real estate disputes, and high-value arbitration across the Emirates.
-              </p>
+              <p className="text-muted-foreground leading-relaxed mb-6">{t("about.uaeDesc")}</p>
               <div className="text-sm font-medium border-l-2 border-primary pl-4 text-foreground/80">
                 Falcon Tower, 1409 Al Wahda Street<br />
                 Rashidiya 2, Ajman<br />
@@ -236,13 +209,11 @@ export default function About() {
                   <MapPin className="h-6 w-6" />
                 </div>
                 <div>
-                  <h3 className="text-2xl font-serif font-bold">Egypt Chambers</h3>
-                  <p className="text-muted-foreground text-sm">Established 2015</p>
+                  <h3 className="text-2xl font-serif font-bold">{t("about.egyptChambers")}</h3>
+                  <p className="text-muted-foreground text-sm">{t("about.egyptEstablished")}</p>
                 </div>
               </div>
-              <p className="text-muted-foreground leading-relaxed mb-6">
-                Located in the heart of Nasr City, our Cairo team commands deep influence in domestic litigation, regulatory affairs, and commercial law across Egypt.
-              </p>
+              <p className="text-muted-foreground leading-relaxed mb-6">{t("about.egyptDesc")}</p>
               <div className="text-sm font-medium border-l-2 border-primary pl-4 text-foreground/80">
                 Al Tahrir Building, 753 St<br />
                 Nasr City, Cairo<br />

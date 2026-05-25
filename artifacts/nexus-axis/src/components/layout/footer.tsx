@@ -21,11 +21,11 @@ export function Footer() {
           <div>
             <h3 className="font-serif text-lg font-semibold mb-4 text-foreground">{t("footer.practiceAreas")}</h3>
             <ul className="space-y-2 text-sm text-muted-foreground">
-              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">Commercial Litigation</Link></li>
-              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">Corporate Tax</Link></li>
-              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">Maritime Law</Link></li>
-              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">Criminal Defense</Link></li>
-              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">Real Estate</Link></li>
+              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">{t("footer.commercialLitigation")}</Link></li>
+              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">{t("footer.corporateTax")}</Link></li>
+              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">{t("footer.maritimeLaw")}</Link></li>
+              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">{t("footer.criminalDefense")}</Link></li>
+              <li><Link href="/practice-areas" className="hover:text-primary transition-colors">{t("footer.realEstate")}</Link></li>
             </ul>
           </div>
 
