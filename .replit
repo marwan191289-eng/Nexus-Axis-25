@@ -11,6 +11,27 @@ env = { "CI" = "true" }
 [workflows]
 runButton = "Project"
 
+[[workflows.workflow]]
+name = "Project"
+mode = "parallel"
+author = "agent"
+
+[[workflows.workflow.tasks]]
+task = "workflow.run"
+args = "Nexus Axis Legal"
+
+[[workflows.workflow]]
+name = "Nexus Axis Legal"
+author = "agent"
+
+[workflows.workflow.metadata]
+outputType = "webview"
+
+[[workflows.workflow.tasks]]
+task = "shell.exec"
+args = "PORT=18274 BASE_PATH=/ pnpm --filter @workspace/nexus-axis run dev"
+waitForPort = 18274
+
 [agent]
 stack = "PNPM_WORKSPACE"
 expertMode = true
