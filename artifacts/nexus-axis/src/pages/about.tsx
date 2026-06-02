@@ -11,43 +11,43 @@ import partnerOfficeImg from "@assets/partner-office_1779665186900.jpg";
 import receptionImg from "@assets/reception_1779665186901.jpg";
 import { useTranslation } from "react-i18next";
 
-const leadership = [
-  {
-    img: marwanImg,
-    name: "Marwan Negm",
-    title: "Managing Partner",
-    location: "Ajman, UAE",
-    bio: "Founder and Managing Partner with over 20 years of practice in commercial litigation and corporate advisory across UAE and Egyptian courts. Admitted before the Federal Supreme Court.",
-    areas: ["Commercial Litigation", "Corporate Advisory", "International Arbitration"],
-  },
-  {
-    img: leader2Img,
-    name: "Layla Al Rashidi",
-    title: "Senior Partner",
-    location: "Ajman, UAE",
-    bio: "A leading authority in UAE corporate tax strategy and Free Zone structuring. Advises multinational clients on inbound investment and regulatory compliance across the MENA region.",
-    areas: ["Corporate Tax", "Business Setup", "Regulatory Compliance"],
-  },
-  {
-    img: leader3Img,
-    name: "Khaled Mansour",
-    title: "Partner",
-    location: "Cairo, Egypt",
-    bio: "Heads the Cairo chambers with deep expertise in Egyptian commercial law, real estate transactions, and cross-border dispute resolution. Fluent in Arabic, English, and French.",
-    areas: ["Real Estate Law", "Dispute Resolution", "Corporate Law"],
-  },
-  {
-    img: leader4Img,
-    name: "Sara Al Hamdan",
-    title: "Associate Partner",
-    location: "Ajman, UAE",
-    bio: "Specializes in employment law, HR compliance, and workforce restructuring. Advises boards and HR directors on Emiratization requirements and labour dispute prevention.",
-    areas: ["HR Compliance", "Employment Law", "Emiratization"],
-  },
-];
-
 export default function About() {
   const { t } = useTranslation();
+
+  const leadership = [
+    {
+      img: marwanImg,
+      name: t("about.team1Name"),
+      title: t("about.team1Title"),
+      location: t("about.team1Location"),
+      bio: t("about.team1Bio"),
+      areas: [t("about.team1Area1"), t("about.team1Area2"), t("about.team1Area3")],
+    },
+    {
+      img: leader2Img,
+      name: t("about.team2Name"),
+      title: t("about.team2Title"),
+      location: t("about.team2Location"),
+      bio: t("about.team2Bio"),
+      areas: [t("about.team2Area1"), t("about.team2Area2"), t("about.team2Area3")],
+    },
+    {
+      img: leader3Img,
+      name: t("about.team3Name"),
+      title: t("about.team3Title"),
+      location: t("about.team3Location"),
+      bio: t("about.team3Bio"),
+      areas: [t("about.team3Area1"), t("about.team3Area2"), t("about.team3Area3")],
+    },
+    {
+      img: leader4Img,
+      name: t("about.team4Name"),
+      title: t("about.team4Title"),
+      location: t("about.team4Location"),
+      bio: t("about.team4Bio"),
+      areas: [t("about.team4Area1"), t("about.team4Area2"), t("about.team4Area3")],
+    },
+  ];
 
   const values = [
     { icon: Scale, title: t("about.val1Title"), body: t("about.val1Body") },

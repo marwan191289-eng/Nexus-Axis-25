@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@/hooks/use-theme";
 import { LANGUAGES, applyLanguageToDOM } from "@/i18n/index";
-import logoPath from "../../assets/logo.png";
+import logoPath from "../../assets/logo.svg";
 
 export function Navbar() {
   const [location] = useLocation();

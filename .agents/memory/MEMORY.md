@@ -1,0 +1,4 @@
+- [Logo & favicon](logo-favicon.md) — Use logo.svg (not .png) for navbar/footer; favicon.svg is scales-of-justice on dark bg; both in src/assets/ and public/
+- [Font loading](font-loading.md) — Playfair Display + Inter + Noto Naskh Arabic must all be loaded in index.html via Google Fonts; CSS references them via --app-font-serif/sans/arabic vars
+- [Arabic i18n team translations](i18n-patterns.md) — leadership array must be declared INSIDE the component function (after useTranslation) to pick up reactive language changes; module-level constants break i18n
+- [Gallery i18n pattern](i18n-patterns.md) — Hero/gallery image arrays with labels must be computed inside components using t(), not as module-level constants
