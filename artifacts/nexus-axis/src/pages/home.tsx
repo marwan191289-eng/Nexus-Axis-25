@@ -8,6 +8,10 @@ import libraryImg from "../assets/library.jpg";
 import { useCountUp } from "@/hooks/use-count-up";
 import { useTranslation } from "react-i18next";
 
+function slugToCamel(slug: string): string {
+  return slug.replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
+}
+
 interface StatCounterProps {
   target: number;
   suffix?: string;
@@ -131,9 +135,9 @@ export default function Home() {
                   className="group relative bg-card border border-border p-8 hover:border-primary/50 transition-colors flex flex-col h-full hover-elevate"
                 >
                   <Briefcase className="h-8 w-8 text-primary mb-6" />
-                  <h3 className="text-xl font-serif font-bold mb-3 group-hover:text-primary transition-colors">{area.title}</h3>
+                  <h3 className="text-xl font-serif font-bold mb-3 group-hover:text-primary transition-colors">{t(`practiceAreaDB.${slugToCamel(area.slug)}.title`, { defaultValue: area.title })}</h3>
                   <p className="text-muted-foreground text-sm leading-relaxed mb-8 line-clamp-3">
-                    {area.description}
+                    {t(`practiceAreaDB.${slugToCamel(area.slug)}.description`, { defaultValue: area.description })}
                   </p>
                   <div className="mt-auto flex items-center text-sm font-semibold tracking-wider uppercase text-foreground group-hover:text-primary transition-colors">
                     {t("home.exploreDomain")} <ChevronRight className="ml-1 h-4 w-4" />
@@ -157,14 +161,13 @@ export default function Home() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
-            {[
-              { tag: "Commercial Litigation", outcome: "AED 18.4M Recovered", description: "Represented a Dubai-based trading group in a complex breach-of-contract dispute against a regional distributor. Secured full judgment at DIFC Courts within 14 months.", client: "Trading Group — Dubai, UAE", duration: "14 months" },
-              { tag: "Corporate Tax", outcome: "AED 6.2M Tax Saved", description: "Restructured the UAE operations of a European manufacturer before the corporate tax effective date, achieving qualifying Free Zone status and a 0% rate on qualifying income.", client: "European Manufacturer — Abu Dhabi, UAE", duration: "3 months" },
-              { tag: "Business Setup", outcome: "Operational in 19 Days", description: "End-to-end mainland licensing, visa processing, and bank account establishment for a fintech startup entering the UAE market from Singapore.", client: "Fintech Startup — Ajman, UAE", duration: "19 days" },
-              { tag: "International Arbitration", outcome: "USD 4.1M Award Enforced", description: "Successfully enforced a foreign arbitral award against a UAE-based respondent who had deliberately dissipated assets. Obtained precautionary attachment within 72 hours of filing.", client: "European Construction Firm — Cairo, Egypt", duration: "8 months" },
-              { tag: "HR Compliance", outcome: "Zero Penalty Outcome", description: "Advised a retail group on a workforce restructuring of 340 employees across three Emirates, achieving full MOHRE compliance and avoiding AED 2.8M in potential penalties.", client: "Retail Group — Sharjah, UAE", duration: "6 weeks" },
-              { tag: "Real Estate", outcome: "Full Refund + Damages", description: "Recovered 100% of a client's off-plan deposit plus statutory compensation after the developer failed to deliver within the contracted period. Resolved before Rental Dispute Center.", client: "Private Investor — Cairo, Egypt", duration: "5 months" },
-            ].map((item, i) => (
+            {([1,2,3,4,5,6] as const).map((n) => ({
+              tag: t(`home.case${n}Tag`),
+              outcome: t(`home.case${n}Outcome`),
+              description: t(`home.case${n}Desc`),
+              client: t(`home.case${n}Client`),
+              duration: t(`home.case${n}Duration`),
+            })).map((item, i) => (
               <div key={i} className="group relative bg-card border border-border p-8 hover:border-primary/50 transition-all duration-300 flex flex-col">
                 <div className="absolute top-0 left-0 w-1 h-0 bg-primary group-hover:h-full transition-all duration-500" />
                 <span className="text-xs font-semibold tracking-[0.2em] uppercase text-primary mb-4 block">{item.tag}</span>
@@ -227,7 +230,7 @@ export default function Home() {
                 <p>Falcon Tower, Office 1204</p>
                 <p>Rashidiya 2, Ajman</p>
                 <p>United Arab Emirates</p>
-                <div className="pt-6 mt-6 border-t border-border/50 font-medium text-foreground">
+                <div dir="ltr" className="pt-6 mt-6 border-t border-border/50 font-medium text-foreground">
                   +971 585 592 355
                 </div>
               </div>
@@ -243,7 +246,7 @@ export default function Home() {
                 <p>Makram Ebeid Street</p>
                 <p>Nasr City, Cairo</p>
                 <p>Egypt</p>
-                <div className="pt-6 mt-6 border-t border-border/50 font-medium text-foreground">
+                <div dir="ltr" className="pt-6 mt-6 border-t border-border/50 font-medium text-foreground">
                   +20 100 123 4567
                 </div>
               </div>

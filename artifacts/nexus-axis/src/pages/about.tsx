@@ -198,8 +198,8 @@ export default function About() {
                 United Arab Emirates
               </div>
               <div className="mt-6 pt-6 border-t border-border text-sm text-muted-foreground space-y-1">
-                <p>+971 585 592 355</p>
-                <p>info@nexusaxisconsultants.com</p>
+                <p dir="ltr">+971 585 592 355</p>
+                <p dir="ltr">info@nexusaxisconsultants.com</p>
               </div>
             </div>
 
@@ -220,8 +220,8 @@ export default function About() {
                 Egypt
               </div>
               <div className="mt-6 pt-6 border-t border-border text-sm text-muted-foreground space-y-1">
-                <p>+20 100 123 4567</p>
-                <p>cairo@nexusaxisconsultants.com</p>
+                <p dir="ltr">+20 100 123 4567</p>
+                <p dir="ltr">cairo@nexusaxisconsultants.com</p>
               </div>
             </div>
           </div>

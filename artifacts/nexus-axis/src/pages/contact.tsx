@@ -55,7 +55,7 @@ export default function Contact() {
                 <Phone className="h-6 w-6 text-primary mt-1" />
                 <div>
                   <h3 className="font-serif font-bold text-lg mb-1">{t("contact.directLine")}</h3>
-                  <p className="text-xl font-medium">+971 585 592 355</p>
+                  <p className="text-xl font-medium" dir="ltr">+971 585 592 355</p>
                   <p className="text-sm text-muted-foreground mt-1">{t("contact.directLineAvail")}</p>
                 </div>
               </div>
