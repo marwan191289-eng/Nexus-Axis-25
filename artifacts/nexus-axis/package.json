@@ -76,6 +76,7 @@
   },
   "dependencies": {
     "i18next": "^26.2.0",
-    "react-i18next": "^17.0.8"
+    "react-i18next": "^17.0.8",
+    "react-markdown": "^10.1.0"
   }
 }
