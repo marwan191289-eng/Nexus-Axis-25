@@ -10,6 +10,7 @@ import office3Img from "@assets/office3_1779665186900.jpg";
 import partnerOfficeImg from "@assets/partner-office_1779665186900.jpg";
 import receptionImg from "@assets/reception_1779665186901.jpg";
 import { useTranslation } from "react-i18next";
+import { SectionReveal } from "@/components/section-reveal";
 
 export default function About() {
   const { t } = useTranslation();
@@ -96,12 +97,14 @@ export default function About() {
             </div>
 
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-              {values.map((v) => (
-                <div key={v.title} className="bg-card border border-border p-7 group hover:border-primary/40 transition-colors">
-                  <v.icon className="h-6 w-6 text-primary mb-4" />
-                  <h3 className="font-serif text-lg font-bold mb-2">{v.title}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed">{v.body}</p>
-                </div>
+              {values.map((v, i) => (
+                <SectionReveal key={v.title} delay={i * 80} className="h-full">
+                  <div className="bg-card border border-border p-7 group hover:border-primary/40 hover:shadow-lg hover:shadow-primary/5 hover:-translate-y-0.5 transition-all duration-300 h-full">
+                    <v.icon className="h-6 w-6 text-primary mb-4" />
+                    <h3 className="font-serif text-lg font-bold mb-2">{v.title}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed">{v.body}</p>
+                  </div>
+                </SectionReveal>
               ))}
             </div>
           </div>
@@ -136,39 +139,38 @@ export default function About() {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {leadership.map((person) => (
-              <div
-                key={person.name}
-                className="group bg-card border border-border hover:border-primary/40 transition-colors overflow-hidden flex flex-col md:flex-row"
-              >
-                <div className="md:w-52 shrink-0 overflow-hidden">
-                  <img
-                    src={person.img}
-                    alt={person.name}
-                    className="w-full h-64 md:h-full object-cover object-top grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out"
-                  />
-                </div>
-                <div className="p-8 flex flex-col justify-between">
-                  <div>
-                    <div className="flex items-start justify-between gap-4 mb-1">
-                      <h3 className="font-serif text-xl font-bold">{person.name}</h3>
-                    </div>
-                    <p className="text-primary text-sm font-semibold tracking-wide uppercase mb-1">{person.title}</p>
-                    <div className="flex items-center gap-1 text-muted-foreground text-xs mb-5">
-                      <MapPin className="h-3 w-3" />
-                      {person.location}
-                    </div>
-                    <p className="text-muted-foreground text-sm leading-relaxed mb-6">{person.bio}</p>
+            {leadership.map((person, i) => (
+              <SectionReveal key={person.name} delay={i * 100}>
+                <div className="group bg-card border border-border hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 overflow-hidden flex flex-col md:flex-row">
+                  <div className="md:w-52 shrink-0 overflow-hidden">
+                    <img
+                      src={person.img}
+                      alt={person.name}
+                      className="w-full h-64 md:h-full object-cover object-top grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out"
+                    />
                   </div>
-                  <div className="flex flex-wrap gap-2">
-                    {person.areas.map((area) => (
-                      <span key={area} className="text-xs px-3 py-1 bg-primary/10 text-primary border border-primary/20 font-medium">
-                        {area}
-                      </span>
-                    ))}
+                  <div className="p-8 flex flex-col justify-between">
+                    <div>
+                      <div className="flex items-start justify-between gap-4 mb-1">
+                        <h3 className="font-serif text-xl font-bold group-hover:text-primary transition-colors">{person.name}</h3>
+                      </div>
+                      <p className="text-primary text-sm font-semibold tracking-wide uppercase mb-1">{person.title}</p>
+                      <div className="flex items-center gap-1 text-muted-foreground text-xs mb-5">
+                        <MapPin className="h-3 w-3" />
+                        {person.location}
+                      </div>
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-6">{person.bio}</p>
+                    </div>
+                    <div className="flex flex-wrap gap-2">
+                      {person.areas.map((area) => (
+                        <span key={area} className="text-xs px-3 py-1 bg-primary/10 text-primary border border-primary/20 font-medium">
+                          {area}
+                        </span>
+                      ))}
+                    </div>
                   </div>
                 </div>
-              </div>
+              </SectionReveal>
             ))}
           </div>
         </div>
@@ -181,49 +183,56 @@ export default function About() {
           <h2 className="text-3xl md:text-5xl font-serif font-bold mb-16">{t("about.strongholds")}</h2>
 
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl">
-            <div className="bg-card border border-border p-10 group hover:border-primary/50 transition-colors">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="h-12 w-12 bg-primary/10 flex items-center justify-center text-primary">
-                  <MapPin className="h-6 w-6" />
+            <SectionReveal direction="left">
+              <div className="bg-card border border-border p-10 group hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="h-12 w-12 bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
+                    <MapPin className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-serif font-bold">{t("about.uaeHQ")}</h3>
+                    <p className="text-muted-foreground text-sm">{t("about.uaeEstablished")}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-2xl font-serif font-bold">{t("about.uaeHQ")}</h3>
-                  <p className="text-muted-foreground text-sm">{t("about.uaeEstablished")}</p>
+                <p className="text-muted-foreground leading-relaxed mb-6">{t("about.uaeDesc")}</p>
+                <div className="text-sm font-medium border-l-2 border-primary pl-4 text-foreground/80">
+                  Falcon Tower, 1409 Al Wahda Street<br />
+                  Rashidiya 2, Ajman<br />
+                  United Arab Emirates
+                </div>
+                <div className="mt-6 pt-6 border-t border-border text-sm text-muted-foreground space-y-2">
+                  <a href="tel:+971585592355" className="block hover:text-primary transition-colors" dir="ltr">+971 585 592 355</a>
+                  <a href="https://wa.me/971585592355" target="_blank" rel="noopener noreferrer" className="inline-flex items-center gap-1.5 text-[#25D366] font-semibold hover:underline">
+                    <span className="text-xs">↗</span> WhatsApp
+                  </a>
+                  <a href="mailto:info@nexusaxisconsultants.com" className="block hover:text-primary transition-colors break-all" dir="ltr">info@nexusaxisconsultants.com</a>
                 </div>
               </div>
-              <p className="text-muted-foreground leading-relaxed mb-6">{t("about.uaeDesc")}</p>
-              <div className="text-sm font-medium border-l-2 border-primary pl-4 text-foreground/80">
-                Falcon Tower, 1409 Al Wahda Street<br />
-                Rashidiya 2, Ajman<br />
-                United Arab Emirates
-              </div>
-              <div className="mt-6 pt-6 border-t border-border text-sm text-muted-foreground space-y-1">
-                <p dir="ltr">+971 585 592 355</p>
-                <p dir="ltr">info@nexusaxisconsultants.com</p>
-              </div>
-            </div>
+            </SectionReveal>
 
-            <div className="bg-card border border-border p-10 group hover:border-primary/50 transition-colors">
-              <div className="flex items-center gap-4 mb-6">
-                <div className="h-12 w-12 bg-primary/10 flex items-center justify-center text-primary">
-                  <MapPin className="h-6 w-6" />
+            <SectionReveal direction="right" delay={120}>
+              <div className="bg-card border border-border p-10 group hover:border-primary/50 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300">
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="h-12 w-12 bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
+                    <MapPin className="h-6 w-6" />
+                  </div>
+                  <div>
+                    <h3 className="text-2xl font-serif font-bold">{t("about.egyptChambers")}</h3>
+                    <p className="text-muted-foreground text-sm">{t("about.egyptEstablished")}</p>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-2xl font-serif font-bold">{t("about.egyptChambers")}</h3>
-                  <p className="text-muted-foreground text-sm">{t("about.egyptEstablished")}</p>
+                <p className="text-muted-foreground leading-relaxed mb-6">{t("about.egyptDesc")}</p>
+                <div className="text-sm font-medium border-l-2 border-primary pl-4 text-foreground/80">
+                  Al Tahrir Building, 753 St<br />
+                  Nasr City, Cairo<br />
+                  Egypt
+                </div>
+                <div className="mt-6 pt-6 border-t border-border text-sm text-muted-foreground space-y-2">
+                  <a href="tel:+201001234567" className="block hover:text-primary transition-colors" dir="ltr">+20 100 123 4567</a>
+                  <a href="mailto:cairo@nexusaxisconsultants.com" className="block hover:text-primary transition-colors break-all" dir="ltr">cairo@nexusaxisconsultants.com</a>
                 </div>
               </div>
-              <p className="text-muted-foreground leading-relaxed mb-6">{t("about.egyptDesc")}</p>
-              <div className="text-sm font-medium border-l-2 border-primary pl-4 text-foreground/80">
-                Al Tahrir Building, 753 St<br />
-                Nasr City, Cairo<br />
-                Egypt
-              </div>
-              <div className="mt-6 pt-6 border-t border-border text-sm text-muted-foreground space-y-1">
-                <p dir="ltr">+20 100 123 4567</p>
-                <p dir="ltr">cairo@nexusaxisconsultants.com</p>
-              </div>
-            </div>
+            </SectionReveal>
           </div>
         </div>
       </section>

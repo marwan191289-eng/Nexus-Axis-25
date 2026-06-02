@@ -33,7 +33,8 @@ export default function Consultation() {
   const { t } = useTranslation();
   const { toast } = useToast();
   const [, setLocation] = useLocation();
-  const { data: areas } = useListPracticeAreas();
+  const { data: areasRaw } = useListPracticeAreas();
+  const areas = Array.isArray(areasRaw) ? areasRaw : (areasRaw as any)?.data ?? [];
   const createConsultation = useCreateConsultation();
 
   const form = useForm<z.infer<typeof consultationSchema>>({

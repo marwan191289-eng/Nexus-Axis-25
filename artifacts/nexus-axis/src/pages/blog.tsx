@@ -10,7 +10,8 @@ export default function Blog() {
   const { t } = useTranslation();
   const [category, setCategory] = useState<string | undefined>();
   // @ts-ignore
-  const { data: posts, isLoading } = useListBlogPosts(category ? { category } : undefined, { query: { queryKey: ["blog-posts", category] } });
+  const { data: postsRaw, isLoading } = useListBlogPosts(category ? { category } : undefined, { query: { queryKey: ["blog-posts", category] } });
+  const posts = Array.isArray(postsRaw) ? postsRaw : (postsRaw as any)?.data ?? [];
 
   const categories = [
     { label: t("insights.all"), value: undefined },
@@ -60,7 +61,7 @@ export default function Blog() {
             Array.from({ length: 6 }).map((_, i) => (
               <Skeleton key={i} className="h-96 bg-card border border-border" />
             ))
-          ) : posts && posts.length > 0 ? (
+          ) : posts.length > 0 ? (
             posts.map((post) => (
               <Link
                 key={post.id}

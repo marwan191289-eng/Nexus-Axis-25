@@ -7,6 +7,7 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { useCountUp } from "@/hooks/use-count-up";
 import { useTranslation } from "react-i18next";
 import { useState, useEffect, useCallback, useRef } from "react";
+import { SectionReveal } from "@/components/section-reveal";
 
 import libraryImg from "../assets/library.jpg";
 import office1Img from "../assets/office1.jpg";
@@ -222,10 +223,10 @@ export default function Home() {
             {t("stats.byTheNumbers")}
           </p>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-10 md:gap-16">
-            <StatCounter target={17} suffix="+" label={t("stats.years")} loading={statsLoading} />
-            <StatCounter target={stats?.clientsServed ?? 1200} suffix="+" label={t("stats.clients")} loading={statsLoading} />
-            <StatCounter target={stats?.casesWon ?? 890} suffix="+" label={t("stats.cases")} loading={statsLoading} />
-            <StatCounter target={stats?.practiceAreas ?? 18} label={t("stats.areas")} loading={statsLoading} />
+            <SectionReveal delay={0}><StatCounter target={17} suffix="+" label={t("stats.years")} loading={statsLoading} /></SectionReveal>
+            <SectionReveal delay={100}><StatCounter target={stats?.clientsServed ?? 1200} suffix="+" label={t("stats.clients")} loading={statsLoading} /></SectionReveal>
+            <SectionReveal delay={200}><StatCounter target={stats?.casesWon ?? 890} suffix="+" label={t("stats.cases")} loading={statsLoading} /></SectionReveal>
+            <SectionReveal delay={300}><StatCounter target={stats?.practiceAreas ?? 18} label={t("stats.areas")} loading={statsLoading} /></SectionReveal>
           </div>
         </div>
       </section>
@@ -272,14 +273,16 @@ export default function Home() {
               { icon: Shield, title: t("home.why2Title"), desc: t("home.why2Desc") },
               { icon: Clock, title: t("home.why3Title"), desc: t("home.why3Desc") },
               { icon: Users, title: t("home.why4Title"), desc: t("home.why4Desc") },
-            ].map(({ icon: Icon, title, desc }) => (
-              <div key={title} className="group bg-card border border-border p-8 hover:border-primary/50 transition-all duration-300 hover:shadow-lg hover:shadow-primary/5 flex flex-col">
-                <div className="h-12 w-12 bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
-                  <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
+            ].map(({ icon: Icon, title, desc }, i) => (
+              <SectionReveal key={title} delay={i * 80}>
+                <div className="group bg-card border border-border p-8 hover:border-primary/50 transition-all duration-300 hover:shadow-xl hover:shadow-primary/8 flex flex-col h-full hover:-translate-y-1">
+                  <div className="h-12 w-12 bg-primary/10 flex items-center justify-center mb-6 group-hover:bg-primary/20 transition-colors">
+                    <Icon className="h-6 w-6 text-primary" aria-hidden="true" />
+                  </div>
+                  <h3 className="font-serif text-xl font-bold mb-3 group-hover:text-primary transition-colors">{title}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed">{desc}</p>
                 </div>
-                <h3 className="font-serif text-xl font-bold mb-3 group-hover:text-primary transition-colors">{title}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed">{desc}</p>
-              </div>
+              </SectionReveal>
             ))}
           </div>
         </div>
@@ -308,22 +311,23 @@ export default function Home() {
                 <Skeleton key={i} className="h-64 rounded-none bg-card border border-border" />
               ))
             ) : (
-              areasList.slice(0, 6).map((area) => (
-                <Link
-                  key={area.id}
-                  href={`/practice-areas/${area.id}`}
-                  className="group relative bg-card border border-border p-8 hover:border-primary/50 transition-all duration-300 flex flex-col h-full hover:shadow-md hover:shadow-primary/5"
-                >
-                  <div className="absolute top-0 start-0 w-0.5 h-0 bg-primary group-hover:h-full transition-all duration-500" />
-                  <Briefcase className="h-7 w-7 text-primary mb-6 transition-transform group-hover:scale-110 duration-300" aria-hidden="true" />
-                  <h3 className="text-xl font-serif font-bold mb-3 group-hover:text-primary transition-colors">{t(`practiceAreaDB.${slugToCamel(area.slug)}.title`, { defaultValue: area.title })}</h3>
-                  <p className="text-muted-foreground text-sm leading-relaxed mb-8 flex-1">
-                    {t(`practiceAreaDB.${slugToCamel(area.slug)}.description`, { defaultValue: area.description })}
-                  </p>
-                  <div className="mt-auto flex items-center text-xs font-bold tracking-[0.15em] uppercase text-muted-foreground group-hover:text-primary transition-colors">
-                    {t("home.exploreDomain")} <ChevronRight className="ms-1 h-4 w-4 rtl:rotate-180" aria-hidden="true" />
-                  </div>
-                </Link>
+              areasList.slice(0, 6).map((area, i) => (
+                <SectionReveal key={area.id} delay={i * 60} className="h-full">
+                  <Link
+                    href={`/practice-areas/${area.id}`}
+                    className="group relative bg-card border border-border p-8 hover:border-primary/50 transition-all duration-300 flex flex-col h-full hover:shadow-xl hover:shadow-primary/8 hover:-translate-y-0.5"
+                  >
+                    <div className="absolute top-0 start-0 w-0.5 h-0 bg-primary group-hover:h-full transition-all duration-500" />
+                    <Briefcase className="h-7 w-7 text-primary mb-6 transition-transform group-hover:scale-110 duration-300" aria-hidden="true" />
+                    <h3 className="text-xl font-serif font-bold mb-3 group-hover:text-primary transition-colors">{t(`practiceAreaDB.${slugToCamel(area.slug)}.title`, { defaultValue: area.title })}</h3>
+                    <p className="text-muted-foreground text-sm leading-relaxed mb-8 flex-1">
+                      {t(`practiceAreaDB.${slugToCamel(area.slug)}.description`, { defaultValue: area.description })}
+                    </p>
+                    <div className="mt-auto flex items-center text-xs font-bold tracking-[0.15em] uppercase text-muted-foreground group-hover:text-primary transition-colors">
+                      {t("home.exploreDomain")} <ChevronRight className="ms-1 h-4 w-4 rtl:rotate-180" aria-hidden="true" />
+                    </div>
+                  </Link>
+                </SectionReveal>
               ))
             )}
           </div>
@@ -349,35 +353,39 @@ export default function Home() {
               client: t(`home.case${n}Client`),
               duration: t(`home.case${n}Duration`),
             })).map((item, i) => (
-              <article key={i} className="group relative bg-card border border-border p-8 hover:border-primary/50 transition-all duration-300 flex flex-col hover:shadow-lg hover:shadow-primary/5">
-                <div className="absolute top-0 start-0 w-1 h-0 bg-primary group-hover:h-full transition-all duration-500" />
-                <span className="text-xs font-bold tracking-[0.2em] uppercase text-primary mb-4 block">{item.tag}</span>
-                <h3 className="text-2xl md:text-3xl font-serif font-bold text-foreground mb-4 leading-tight">{item.outcome}</h3>
-                <p className="text-muted-foreground text-sm leading-relaxed mb-6 flex-1">{item.description}</p>
-                <div className="border-t border-border pt-5 flex items-center justify-between gap-4">
-                  <span className="text-xs text-muted-foreground truncate">{item.client}</span>
-                  <span className="text-xs font-bold text-primary shrink-0 bg-primary/8 px-2 py-0.5 border border-primary/20" dir="ltr">{item.duration}</span>
-                </div>
-              </article>
+              <SectionReveal key={i} delay={i * 60} className="h-full">
+                <article className="group relative bg-card border border-border p-8 hover:border-primary/50 transition-all duration-300 flex flex-col hover:shadow-xl hover:shadow-primary/8 hover:-translate-y-0.5 h-full">
+                  <div className="absolute top-0 start-0 w-1 h-0 bg-primary group-hover:h-full transition-all duration-500" />
+                  <span className="text-xs font-bold tracking-[0.2em] uppercase text-primary mb-4 block">{item.tag}</span>
+                  <h3 className="text-2xl md:text-3xl font-serif font-bold text-foreground mb-4 leading-tight">{item.outcome}</h3>
+                  <p className="text-muted-foreground text-sm leading-relaxed mb-6 flex-1">{item.description}</p>
+                  <div className="border-t border-border pt-5 flex items-center justify-between gap-4">
+                    <span className="text-xs text-muted-foreground truncate">{item.client}</span>
+                    <span className="text-xs font-bold text-primary shrink-0 bg-primary/8 px-2 py-0.5 border border-primary/20" dir="ltr">{item.duration}</span>
+                  </div>
+                </article>
+              </SectionReveal>
             ))}
           </div>
 
           {/* Testimonial */}
-          <blockquote className="relative border border-border bg-card p-10 md:p-16 max-w-4xl mx-auto text-center overflow-hidden">
-            <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
-            <div className="absolute top-4 start-4 w-16 h-16 border-s-2 border-t-2 border-primary/20" aria-hidden="true" />
-            <div className="absolute bottom-4 end-4 w-16 h-16 border-e-2 border-b-2 border-primary/20" aria-hidden="true" />
-            <div className="relative z-10">
-              <div className="text-6xl text-primary font-serif leading-none mb-6 opacity-30" aria-hidden="true">"</div>
-              <p className="text-xl md:text-2xl font-serif text-foreground leading-relaxed mb-8">
-                {t("home.quote")}
-              </p>
-              <div className="w-10 h-0.5 bg-primary/40 mx-auto mb-4" aria-hidden="true" />
-              <cite className="text-sm text-muted-foreground font-semibold tracking-[0.15em] uppercase not-italic">
-                {t("home.quoteCite")}
-              </cite>
-            </div>
-          </blockquote>
+          <SectionReveal delay={100}>
+            <blockquote className="relative border border-border bg-card p-10 md:p-16 max-w-4xl mx-auto text-center overflow-hidden">
+              <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent" />
+              <div className="absolute top-4 start-4 w-16 h-16 border-s-2 border-t-2 border-primary/20" aria-hidden="true" />
+              <div className="absolute bottom-4 end-4 w-16 h-16 border-e-2 border-b-2 border-primary/20" aria-hidden="true" />
+              <div className="relative z-10">
+                <div className="text-6xl text-primary font-serif leading-none mb-6 opacity-30" aria-hidden="true">"</div>
+                <p className="text-xl md:text-2xl font-serif text-foreground leading-relaxed mb-8">
+                  {t("home.quote")}
+                </p>
+                <div className="w-10 h-0.5 bg-primary/40 mx-auto mb-4" aria-hidden="true" />
+                <cite className="text-sm text-muted-foreground font-semibold tracking-[0.15em] uppercase not-italic">
+                  {t("home.quoteCite")}
+                </cite>
+              </div>
+            </blockquote>
+          </SectionReveal>
         </div>
       </section>
 
@@ -426,50 +434,55 @@ export default function Home() {
 
           <div className="grid md:grid-cols-2 gap-8 max-w-5xl mx-auto">
             {/* UAE Office Card */}
-            <div className="group bg-card border border-border hover:border-primary/50 transition-all duration-300 overflow-hidden hover:shadow-lg hover:shadow-primary/5">
-              <div className="h-52 overflow-hidden">
-                <img src={receptionImg} alt={t("home.uaeOffice")} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              </div>
-              <div className="p-10 relative">
-                <div className="absolute top-0 start-0 end-0 h-0.5 w-0 bg-primary group-hover:w-full transition-all duration-500" />
-                <div className="flex items-center gap-3 mb-2">
-                  <MapPin className="h-5 w-5 text-primary shrink-0" aria-hidden="true" />
-                  <h3 className="text-2xl font-serif font-bold">{t("home.uaeOffice")}</h3>
+            <SectionReveal delay={0} direction="left">
+              <div className="group bg-card border border-border hover:border-primary/50 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-primary/8">
+                <div className="h-56 overflow-hidden">
+                  <img src={receptionImg} alt={t("home.uaeOffice")} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 </div>
-                <p className="text-primary font-semibold tracking-widest uppercase text-xs mb-6">{t("home.uaeHQLabel")}</p>
-                <address className="space-y-1 text-muted-foreground text-sm not-italic">
-                  <p>Falcon Tower, Office 1204</p>
-                  <p>Rashidiya 2, Ajman</p>
-                  <p>United Arab Emirates</p>
-                </address>
-                <div dir="ltr" className="pt-5 mt-5 border-t border-border/50 font-semibold text-foreground text-sm">
-                  <a href="tel:+971585592355" className="hover:text-primary transition-colors">+971 585 592 355</a>
+                <div className="p-10 relative">
+                  <div className="absolute top-0 start-0 end-0 h-0.5 w-0 bg-primary group-hover:w-full transition-all duration-500" />
+                  <div className="flex items-center gap-3 mb-2">
+                    <MapPin className="h-5 w-5 text-primary shrink-0" aria-hidden="true" />
+                    <h3 className="text-2xl font-serif font-bold">{t("home.uaeOffice")}</h3>
+                  </div>
+                  <p className="text-primary font-semibold tracking-widest uppercase text-xs mb-6">{t("home.uaeHQLabel")}</p>
+                  <address className="space-y-1 text-muted-foreground text-sm not-italic">
+                    <p>Falcon Tower, Office 1204</p>
+                    <p>Rashidiya 2, Ajman</p>
+                    <p>United Arab Emirates</p>
+                  </address>
+                  <div dir="ltr" className="pt-5 mt-5 border-t border-border/50 flex items-center gap-4 flex-wrap">
+                    <a href="tel:+971585592355" className="font-semibold text-foreground text-sm hover:text-primary transition-colors">+971 585 592 355</a>
+                    <a href="https://wa.me/971585592355" target="_blank" rel="noopener noreferrer" className="text-xs text-[#25D366] font-semibold border border-[#25D366]/30 px-2 py-0.5 hover:bg-[#25D366]/10 transition-colors">WhatsApp</a>
+                  </div>
                 </div>
               </div>
-            </div>
+            </SectionReveal>
 
             {/* Egypt Office Card */}
-            <div className="group bg-card border border-border hover:border-primary/50 transition-all duration-300 overflow-hidden hover:shadow-lg hover:shadow-primary/5">
-              <div className="h-52 overflow-hidden">
-                <img src={office2Img} alt={t("home.egyptOffice")} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
-              </div>
-              <div className="p-10 relative">
-                <div className="absolute top-0 start-0 end-0 h-0.5 w-0 bg-primary group-hover:w-full transition-all duration-500" />
-                <div className="flex items-center gap-3 mb-2">
-                  <MapPin className="h-5 w-5 text-primary shrink-0" aria-hidden="true" />
-                  <h3 className="text-2xl font-serif font-bold">{t("home.egyptOffice")}</h3>
+            <SectionReveal delay={120} direction="right">
+              <div className="group bg-card border border-border hover:border-primary/50 transition-all duration-300 overflow-hidden hover:shadow-xl hover:shadow-primary/8">
+                <div className="h-56 overflow-hidden">
+                  <img src={office2Img} alt={t("home.egyptOffice")} loading="lazy" className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
                 </div>
-                <p className="text-primary font-semibold tracking-widest uppercase text-xs mb-6">{t("home.egyptHQLabel")}</p>
-                <address className="space-y-1 text-muted-foreground text-sm not-italic">
-                  <p>Makram Ebeid Street</p>
-                  <p>Nasr City, Cairo</p>
-                  <p>Egypt</p>
-                </address>
-                <div dir="ltr" className="pt-5 mt-5 border-t border-border/50 font-semibold text-foreground text-sm">
-                  <a href="tel:+201001234567" className="hover:text-primary transition-colors">+20 100 123 4567</a>
+                <div className="p-10 relative">
+                  <div className="absolute top-0 start-0 end-0 h-0.5 w-0 bg-primary group-hover:w-full transition-all duration-500" />
+                  <div className="flex items-center gap-3 mb-2">
+                    <MapPin className="h-5 w-5 text-primary shrink-0" aria-hidden="true" />
+                    <h3 className="text-2xl font-serif font-bold">{t("home.egyptOffice")}</h3>
+                  </div>
+                  <p className="text-primary font-semibold tracking-widest uppercase text-xs mb-6">{t("home.egyptHQLabel")}</p>
+                  <address className="space-y-1 text-muted-foreground text-sm not-italic">
+                    <p>Makram Ebeid Street</p>
+                    <p>Nasr City, Cairo</p>
+                    <p>Egypt</p>
+                  </address>
+                  <div dir="ltr" className="pt-5 mt-5 border-t border-border/50 font-semibold text-foreground text-sm">
+                    <a href="tel:+201001234567" className="hover:text-primary transition-colors">+20 100 123 4567</a>
+                  </div>
                 </div>
               </div>
-            </div>
+            </SectionReveal>
           </div>
         </div>
       </section>

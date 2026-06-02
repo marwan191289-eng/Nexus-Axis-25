@@ -71,6 +71,7 @@ const CATEGORY_MAP: Record<number, string> = {
 
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { SectionReveal } from "@/components/section-reveal";
 
 export default function PracticeAreas() {
   const { data: areas, isLoading } = useListPracticeAreas();
@@ -84,7 +85,8 @@ export default function PracticeAreas() {
     { label: t("practiceAreas.specialist"), value: "specialist" },
   ];
 
-  const filtered = areas?.filter((area) =>
+  const areasList: typeof areas = Array.isArray(areas) ? areas : (areas as any)?.data ?? [];
+  const filtered = areasList.filter((area) =>
     activeCategory === "all" ? true : CATEGORY_MAP[area.id] === activeCategory
   );
 
@@ -106,7 +108,7 @@ export default function PracticeAreas() {
             </p>
             <div className="mt-6 flex items-center gap-2 text-sm text-muted-foreground">
               <span className="inline-block h-px w-8 bg-primary/60" />
-              <span>{areas?.length ?? 18} {t("practiceAreas.specialized")}</span>
+              <span>{areasList.length || 18} {t("practiceAreas.specialized")}</span>
             </div>
           </div>
         </div>
@@ -126,12 +128,12 @@ export default function PracticeAreas() {
               }`}
             >
               {cat.label}
-              {cat.value === "all" && areas && (
-                <span className="ml-2 opacity-60">({areas.length})</span>
+              {cat.value === "all" && areasList.length > 0 && (
+                <span className="ml-2 opacity-60">({areasList.length})</span>
               )}
-              {cat.value !== "all" && areas && (
+              {cat.value !== "all" && areasList.length > 0 && (
                 <span className="ml-2 opacity-60">
-                  ({areas.filter((a) => CATEGORY_MAP[a.id] === cat.value).length})
+                  ({areasList.filter((a) => CATEGORY_MAP[a.id] === cat.value).length})
                 </span>
               )}
             </button>
@@ -144,28 +146,29 @@ export default function PracticeAreas() {
             ? Array.from({ length: 9 }).map((_, i) => (
                 <Skeleton key={i} className="h-60 bg-card border border-border" />
               ))
-            : filtered?.map((area) => {
+            : filtered?.map((area, i) => {
                 const Icon = getIcon(area.icon);
                 return (
-                  <Link
-                    key={area.id}
-                    href={`/practice-areas/${area.id}`}
-                    className="group relative bg-card border border-border p-8 hover:border-primary/50 transition-all duration-300 flex flex-col overflow-hidden"
-                  >
-                    <div className="absolute top-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-500" />
-                    <div className="flex items-start justify-between mb-6">
-                      <div className="h-11 w-11 bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
-                        <Icon className="h-5 w-5" />
+                  <SectionReveal key={area.id} delay={i * 50} className="h-full">
+                    <Link
+                      href={`/practice-areas/${area.id}`}
+                      className="group relative bg-card border border-border p-8 hover:border-primary/50 transition-all duration-300 flex flex-col overflow-hidden hover:shadow-xl hover:shadow-primary/8 hover:-translate-y-0.5 h-full"
+                    >
+                      <div className="absolute top-0 left-0 w-0 h-0.5 bg-primary group-hover:w-full transition-all duration-500" />
+                      <div className="flex items-start justify-between mb-6">
+                        <div className="h-11 w-11 bg-primary/10 flex items-center justify-center text-primary group-hover:bg-primary/20 transition-colors">
+                          <Icon className="h-5 w-5" />
+                        </div>
+                        <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
                       </div>
-                      <ChevronRight className="h-4 w-4 text-muted-foreground group-hover:text-primary group-hover:translate-x-1 transition-all" />
-                    </div>
-                    <h2 className="text-lg font-serif font-bold mb-3 group-hover:text-primary transition-colors leading-snug">
-                      {area.title}
-                    </h2>
-                    <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
-                      {area.description}
-                    </p>
-                  </Link>
+                      <h2 className="text-lg font-serif font-bold mb-3 group-hover:text-primary transition-colors leading-snug">
+                        {area.title}
+                      </h2>
+                      <p className="text-muted-foreground text-sm leading-relaxed line-clamp-3">
+                        {area.description}
+                      </p>
+                    </Link>
+                  </SectionReveal>
                 );
               })}
         </div>
