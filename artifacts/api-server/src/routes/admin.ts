@@ -143,4 +143,42 @@ router.get("/admin/users", requireAdmin, async (_req, res): Promise<void> => {
   res.json(users.map(u => ({ ...u, createdAt: u.createdAt.toISOString() })));
 });
 
+/* ── PATCH /admin/users/:id — toggle isAdmin ── */
+router.patch("/admin/users/:id", requireAdmin, async (req, res): Promise<void> => {
+  const id = Number(req.params.id);
+  if (isNaN(id)) { res.status(400).json({ error: "Invalid id" }); return; }
+
+  const { isAdmin } = req.body as { isAdmin: boolean };
+  if (typeof isAdmin !== "boolean") { res.status(400).json({ error: "isAdmin must be boolean" }); return; }
+
+  const [updated] = await db
+    .update(usersTable)
+    .set({ isAdmin })
+    .where(eq(usersTable.id, id))
+    .returning({ id: usersTable.id, name: usersTable.name, email: usersTable.email, isAdmin: usersTable.isAdmin });
+
+  if (!updated) { res.status(404).json({ error: "User not found" }); return; }
+  res.json(updated);
+});
+
+/* ── POST /admin/setup — promote authenticated user to admin (only works when zero admins exist) ── */
+router.post("/admin/setup", async (req, res): Promise<void> => {
+  const userId = (req.session as Record<string, unknown>).userId as number | undefined;
+  if (!userId) { res.status(401).json({ error: "Not authenticated" }); return; }
+
+  const [adminCount] = await db.select({ count: count() }).from(usersTable).where(eq(usersTable.isAdmin, true));
+  if (Number(adminCount?.count ?? 0) > 0) {
+    res.status(403).json({ error: "An admin already exists. Contact them to grant access." });
+    return;
+  }
+
+  const [updated] = await db
+    .update(usersTable)
+    .set({ isAdmin: true })
+    .where(eq(usersTable.id, userId))
+    .returning({ id: usersTable.id, name: usersTable.name, email: usersTable.email, isAdmin: usersTable.isAdmin });
+
+  res.json({ ok: true, user: updated });
+});
+
 export default router;
