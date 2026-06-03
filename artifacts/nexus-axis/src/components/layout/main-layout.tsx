@@ -1,6 +1,7 @@
 import { Navbar } from "./navbar";
 import { Footer } from "./footer";
 import { FloatingContact } from "@/components/floating-contact";
+import { QuickEnquiry } from "@/components/quick-enquiry";
 
 export function MainLayout({ children }: { children: React.ReactNode }) {
   return (
@@ -11,6 +12,7 @@ export function MainLayout({ children }: { children: React.ReactNode }) {
       </main>
       <Footer />
       <FloatingContact />
+      <QuickEnquiry />
     </div>
   );
 }
