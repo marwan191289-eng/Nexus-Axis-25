@@ -24,30 +24,7 @@ export default function About() {
       location: t("about.team1Location"),
       bio: t("about.team1Bio"),
       areas: [t("about.team1Area1"), t("about.team1Area2"), t("about.team1Area3")],
-    },
-    {
-      img: leader2Img,
-      name: t("about.team2Name"),
-      title: t("about.team2Title"),
-      location: t("about.team2Location"),
-      bio: t("about.team2Bio"),
-      areas: [t("about.team2Area1"), t("about.team2Area2"), t("about.team2Area3")],
-    },
-    {
-      img: leader3Img,
-      name: t("about.team3Name"),
-      title: t("about.team3Title"),
-      location: t("about.team3Location"),
-      bio: t("about.team3Bio"),
-      areas: [t("about.team3Area1"), t("about.team3Area2"), t("about.team3Area3")],
-    },
-    {
-      img: leader4Img,
-      name: t("about.team4Name"),
-      title: t("about.team4Title"),
-      location: t("about.team4Location"),
-      bio: t("about.team4Bio"),
-      areas: [t("about.team4Area1"), t("about.team4Area2"), t("about.team4Area3")],
+      founder: true,
     },
     {
       img: "/mohab-samy-clean.png",
@@ -56,6 +33,34 @@ export default function About() {
       location: t("about.team5Location"),
       bio: t("about.team5Bio"),
       areas: [t("about.team5Area1"), t("about.team5Area2"), t("about.team5Area3")],
+      founder: true,
+    },
+    {
+      img: leader2Img,
+      name: t("about.team2Name"),
+      title: t("about.team2Title"),
+      location: t("about.team2Location"),
+      bio: t("about.team2Bio"),
+      areas: [t("about.team2Area1"), t("about.team2Area2"), t("about.team2Area3")],
+      founder: false,
+    },
+    {
+      img: leader3Img,
+      name: t("about.team3Name"),
+      title: t("about.team3Title"),
+      location: t("about.team3Location"),
+      bio: t("about.team3Bio"),
+      areas: [t("about.team3Area1"), t("about.team3Area2"), t("about.team3Area3")],
+      founder: false,
+    },
+    {
+      img: leader4Img,
+      name: t("about.team4Name"),
+      title: t("about.team4Title"),
+      location: t("about.team4Location"),
+      bio: t("about.team4Bio"),
+      areas: [t("about.team4Area1"), t("about.team4Area2"), t("about.team4Area3")],
+      founder: false,
     },
   ];
 
@@ -160,24 +165,29 @@ export default function About() {
             {leadership.map((person, i) => (
               <SectionReveal key={person.name} delay={i * 100}>
                 <div className="group bg-card border border-border hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 overflow-hidden flex flex-col md:flex-row">
-                  <div className="md:w-52 shrink-0 overflow-hidden">
+                  <div className="md:w-48 shrink-0 overflow-hidden bg-neutral-900" style={{ minHeight: "220px" }}>
                     <img
                       src={person.img}
                       alt={person.name}
-                      className="w-full h-64 md:h-full object-cover object-top grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out"
+                      className="w-full h-56 md:h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out"
                     />
                   </div>
-                  <div className="p-8 flex flex-col justify-between">
+                  <div className="p-7 flex flex-col justify-between flex-1">
                     <div>
-                      <div className="flex items-start justify-between gap-4 mb-1">
+                      <div className="flex items-center gap-2 mb-1">
                         <h3 className="font-serif text-xl font-bold group-hover:text-primary transition-colors">{person.name}</h3>
+                        {person.founder && (
+                          <span className="text-[10px] px-2 py-0.5 bg-primary/15 text-primary border border-primary/25 font-semibold uppercase tracking-wider">
+                            Founder
+                          </span>
+                        )}
                       </div>
                       <p className="text-primary text-sm font-semibold tracking-wide uppercase mb-1">{person.title}</p>
-                      <div className="flex items-center gap-1 text-muted-foreground text-xs mb-5">
+                      <div className="flex items-center gap-1 text-muted-foreground text-xs mb-4">
                         <MapPin className="h-3 w-3" />
                         {person.location}
                       </div>
-                      <p className="text-muted-foreground text-sm leading-relaxed mb-6">{person.bio}</p>
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-5">{person.bio}</p>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {person.areas.map((area) => (
