@@ -1,7 +1,7 @@
 import { Link, useLocation } from "wouter";
 import { useGetMe, useLogout } from "@workspace/api-client-react";
 import { Button } from "@/components/ui/button";
-import { Menu, X, User as UserIcon, Sun, Moon, ChevronDown, Globe } from "lucide-react";
+import { Menu, X, User as UserIcon, Sun, Moon, ChevronDown, Globe, Shield } from "lucide-react";
 import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@/hooks/use-theme";
@@ -14,9 +14,17 @@ export function Navbar() {
   const logout = useLogout();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
   const langRef = useRef<HTMLDivElement>(null);
   const { t, i18n } = useTranslation();
   const { theme, toggle } = useTheme();
+
+  useEffect(() => {
+    if (!user) { setIsAdmin(false); return; }
+    fetch("/api/admin/verify", { credentials: "include" })
+      .then(r => setIsAdmin(r.ok))
+      .catch(() => setIsAdmin(false));
+  }, [user]);
 
   const currentLang = LANGUAGES.find((l) => l.code === i18n.language) ?? LANGUAGES[0];
 
@@ -110,6 +118,12 @@ export function Navbar() {
               <>
                 {user ? (
                   <div className="flex items-center gap-3">
+                    {isAdmin && (
+                      <Link href="/admin" className="text-sm font-medium flex items-center gap-1.5 text-primary hover:text-primary/80">
+                        <Shield className="h-3.5 w-3.5" />
+                        Admin
+                      </Link>
+                    )}
                     <Link href="/portal" className="text-sm font-medium text-foreground hover:text-primary flex items-center gap-2">
                       <UserIcon className="h-4 w-4" />
                       {t("nav.clientPortal")}
@@ -182,6 +196,12 @@ export function Navbar() {
           <div className="h-px bg-border my-1" />
           {user ? (
             <>
+              {isAdmin && (
+                <Link href="/admin" className="text-lg font-medium text-primary hover:text-primary/80 px-2 py-1 flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
+                  <Shield className="h-5 w-5" />
+                  Admin Dashboard
+                </Link>
+              )}
               <Link href="/portal" className="text-lg font-medium text-foreground hover:text-primary px-2 py-1 flex items-center gap-2" onClick={() => setIsMobileMenuOpen(false)}>
                 <UserIcon className="h-5 w-5" />
                 {t("nav.clientPortal")}

@@ -93,13 +93,14 @@ router.get("/auth/me", async (req, res): Promise<void> => {
     return;
   }
 
-  res.json(GetMeResponse.parse({
+  res.json({
     id: user.id,
     name: user.name,
     email: user.email,
-    phone: user.phone,
+    phone: user.phone ?? null,
+    isAdmin: user.isAdmin ?? false,
     createdAt: user.createdAt.toISOString(),
-  }));
+  });
 });
 
 router.post("/auth/logout", async (req, res): Promise<void> => {
