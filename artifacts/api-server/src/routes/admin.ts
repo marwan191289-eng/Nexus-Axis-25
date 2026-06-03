@@ -1,6 +1,7 @@
 import { Router, type IRouter, type Request, type Response, type NextFunction } from "express";
 import { db, usersTable, consultationsTable, practiceAreasTable } from "@workspace/db";
 import { eq, desc, count, and } from "drizzle-orm";
+import { sendConsultationConfirmedEmail } from "../lib/email";
 
 const router: IRouter = Router();
 
@@ -88,6 +89,11 @@ router.patch("/admin/consultations/:id", requireAdmin, async (req, res): Promise
   if (scheduledAt !== undefined) updateData.scheduledAt = scheduledAt ? new Date(scheduledAt) : null;
   if (notes !== undefined) updateData.notes = notes;
 
+  const [prevRow] = await db
+    .select({ status: consultationsTable.status })
+    .from(consultationsTable)
+    .where(eq(consultationsTable.id, id));
+
   const [updated] = await db
     .update(consultationsTable)
     .set(updateData)
@@ -102,6 +108,21 @@ router.patch("/admin/consultations/:id", requireAdmin, async (req, res): Promise
     .from(consultationsTable)
     .leftJoin(practiceAreasTable, eq(consultationsTable.practiceAreaId, practiceAreasTable.id))
     .where(eq(consultationsTable.id, id));
+
+  // Send confirmation email when status transitions to "confirmed"
+  const prevStatus = prevRow?.status;
+  const newStatus = row.consultation.status;
+  if (newStatus === "confirmed" && prevStatus !== "confirmed") {
+    sendConsultationConfirmedEmail({
+      clientName: row.consultation.clientName,
+      clientEmail: row.consultation.clientEmail,
+      scheduledAt: row.consultation.scheduledAt,
+      durationType: row.consultation.durationType,
+      practiceAreaTitle: row.practiceAreaTitle ?? null,
+      price: Number(row.consultation.price),
+      consultationId: row.consultation.id,
+    }).catch(() => {});
+  }
 
   res.json({
     ...row.consultation,

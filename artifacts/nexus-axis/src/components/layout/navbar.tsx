@@ -9,6 +9,7 @@ import { LANGUAGES, applyLanguageToDOM } from "@/i18n/index";
 const logoPath = "/nexus-logo.png";
 
 export function Navbar() {
+
   const [location] = useLocation();
   const { data: user, isLoading } = useGetMe();
   const logout = useLogout();
@@ -55,8 +56,16 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
-        <Link href="/" className="flex items-center group">
-          <img src={logoPath} alt="Nexus Axis Consultants" className="h-16 w-auto object-contain" />
+        <Link href="/" className="flex items-center gap-3.5 group">
+          <img src={logoPath} alt="Nexus Axis Consultants" className="h-14 w-auto object-contain" />
+          <div className="hidden sm:flex flex-col leading-none">
+            <span className="text-base font-bold tracking-[0.18em] text-foreground uppercase group-hover:text-primary transition-colors" style={{ fontFamily: "var(--app-font-serif, Georgia, serif)" }}>
+              Nexus Axis
+            </span>
+            <span className="text-[9px] tracking-[0.32em] text-primary/80 uppercase font-medium mt-0.5">
+              Consultants
+            </span>
+          </div>
         </Link>
 
         {/* Desktop Nav */}

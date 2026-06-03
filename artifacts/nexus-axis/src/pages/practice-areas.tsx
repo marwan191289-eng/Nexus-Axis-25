@@ -5,7 +5,7 @@ import {
   Scale, Calculator, Building2, Users, Globe, Home,
   Shield, Landmark, Anchor, Heart, Lightbulb, Umbrella,
   Gavel, Lock, HardHat, Plane, TrendingUp, Briefcase,
-  ChevronRight, Building,
+  ChevronRight, Building, Star, FileText, ScrollText,
 } from "lucide-react";
 import { Link } from "wouter";
 import type { LucideIcon } from "lucide-react";
@@ -17,30 +17,22 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Users,
   Globe,
   Home,
-  shield: Shield,
   Shield,
-  landmark: Landmark,
   Landmark,
-  anchor: Anchor,
   Anchor,
-  building: Building,
   Building,
-  heart: Heart,
   Heart,
-  lightbulb: Lightbulb,
   Lightbulb,
-  umbrella: Umbrella,
   Umbrella,
-  gavel: Gavel,
   Gavel,
-  lock: Lock,
   Lock,
-  "hard-hat": HardHat,
   HardHat,
-  plane: Plane,
   Plane,
-  "trending-up": TrendingUp,
   TrendingUp,
+  Briefcase,
+  Star,
+  FileText,
+  ScrollText,
 };
 
 function getIcon(iconName: string | null | undefined): LucideIcon {
@@ -184,20 +176,20 @@ export default function PracticeAreas() {
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
           <div className="relative z-10 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-serif font-bold mb-4">
-              Don't see your area of concern?
+              {t("practiceAreas.ctaTitle")}
             </h2>
             <p className="text-muted-foreground mb-8 leading-relaxed">
-              Our scope is broad. If your matter involves UAE or Egyptian law — or cross-border MENA issues — we very likely have the expertise. Contact us for a confidential assessment.
+              {t("practiceAreas.ctaDesc")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/consultation">
                 <button className="h-12 px-8 bg-primary text-primary-foreground font-serif font-semibold hover:bg-primary/90 transition-colors">
-                  Book a Consultation
+                  {t("practiceAreas.bookBtn")}
                 </button>
               </Link>
               <Link href="/contact">
                 <button className="h-12 px-8 border border-border text-foreground font-semibold hover:border-primary/50 hover:text-primary transition-colors">
-                  Contact Us
+                  {t("common.contactUs")}
                 </button>
               </Link>
             </div>
