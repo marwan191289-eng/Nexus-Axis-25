@@ -1,4 +1,5 @@
 import { MainLayout } from "@/components/layout/main-layout";
+import { PageSEO } from "@/components/page-seo";
 import { MapPin, Building2, Gavel, Scale, Globe } from "lucide-react";
 import libraryImg from "@assets/library_1779665186892.jpg";
 import marwanImg from "@assets/marwan-negm_1779665186899.jpg";
@@ -67,6 +68,11 @@ export default function About() {
 
   return (
     <MainLayout>
+      <PageSEO
+        title="About Us"
+        path="/about"
+        description="Meet the leadership of Nexus Axis Consultants — a premier boutique law firm established in 2009 with offices in Ajman, UAE and Cairo, Egypt. Elite partners across commercial litigation, corporate law, and international arbitration."
+      />
       {/* Hero */}
       <div className="relative h-[60vh] min-h-[480px] overflow-hidden">
         <img

@@ -1,5 +1,6 @@
 import heroOfficeImg from "@assets/hero-office_1780448390987.jpg";
 import { MainLayout } from "@/components/layout/main-layout";
+import { PageSEO } from "@/components/page-seo";
 import { Check, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Link } from "wouter";
@@ -147,6 +148,11 @@ export default function Pricing() {
 
   return (
     <MainLayout>
+      <PageSEO
+        title="Consultation Pricing"
+        path="/pricing"
+        description="Transparent consultation pricing at Nexus Axis Consultants. 30-minute sessions from AED 500, 60 minutes at AED 800, comprehensive 90-minute sessions at AED 1,100. Fixed-fee clarity with no hidden costs."
+      />
       {/* Hero */}
       <div className="relative py-32 overflow-hidden border-b border-border">
         <img src={heroOfficeImg} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-20" />

@@ -9,16 +9,23 @@ import { LANGUAGES, applyLanguageToDOM } from "@/i18n/index";
 const logoPath = "/nexus-logo.png";
 
 export function Navbar() {
-
   const [location] = useLocation();
   const { data: user, isLoading } = useGetMe();
   const logout = useLogout();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
   const [isLangOpen, setIsLangOpen] = useState(false);
   const [isAdmin, setIsAdmin] = useState(false);
+  const [scrolled, setScrolled] = useState(false);
   const langRef = useRef<HTMLDivElement>(null);
   const { t, i18n } = useTranslation();
   const { theme, toggle } = useTheme();
+
+  useEffect(() => {
+    const onScroll = () => setScrolled(window.scrollY > 24);
+    window.addEventListener("scroll", onScroll, { passive: true });
+    onScroll();
+    return () => window.removeEventListener("scroll", onScroll);
+  }, []);
 
   useEffect(() => {
     if (!user) { setIsAdmin(false); return; }
@@ -54,12 +61,18 @@ export function Navbar() {
   ];
 
   return (
-    <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav
+      className={`sticky top-0 z-50 w-full border-b transition-all duration-300 ${
+        scrolled
+          ? "border-border/60 bg-background/98 backdrop-blur-md shadow-sm shadow-black/20"
+          : "border-border/30 bg-background/80 backdrop-blur supports-[backdrop-filter]:bg-background/50"
+      }`}
+    >
       <div className="container mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
         <Link href="/" className="flex items-center gap-3.5 group">
           <img src={logoPath} alt="Nexus Axis Consultants" className="h-14 w-auto object-contain" />
           <div className="hidden sm:flex flex-col leading-none">
-            <span className="text-base font-bold tracking-[0.18em] text-foreground uppercase group-hover:text-primary transition-colors" style={{ fontFamily: "var(--app-font-serif, Georgia, serif)" }}>
+            <span className="text-base font-bold tracking-[0.18em] text-foreground uppercase group-hover:text-primary transition-colors duration-200" style={{ fontFamily: "var(--app-font-serif, Georgia, serif)" }}>
               Nexus Axis
             </span>
             <span className="text-[9px] tracking-[0.32em] text-primary/80 uppercase font-medium mt-0.5">
@@ -75,11 +88,16 @@ export function Navbar() {
               <Link
                 key={link.href}
                 href={link.href}
-                className={`text-sm font-medium transition-colors hover:text-primary ${
+                className={`relative text-sm font-medium transition-colors duration-200 hover:text-primary group ${
                   location.startsWith(link.href) ? "text-primary" : "text-muted-foreground"
                 }`}
               >
                 {link.label}
+                <span
+                  className={`absolute -bottom-1 left-0 h-px bg-primary transition-all duration-300 ${
+                    location.startsWith(link.href) ? "w-full" : "w-0 group-hover:w-full"
+                  }`}
+                />
               </Link>
             ))}
           </div>
@@ -88,7 +106,7 @@ export function Navbar() {
             {/* Theme toggle */}
             <button
               onClick={toggle}
-              className="h-9 w-9 flex items-center justify-center rounded-none border border-border text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors"
+              className="h-9 w-9 flex items-center justify-center rounded-none border border-border text-muted-foreground hover:text-primary hover:border-primary/50 transition-all duration-200"
               aria-label="Toggle theme"
             >
               {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
@@ -98,25 +116,28 @@ export function Navbar() {
             <div ref={langRef} className="relative">
               <button
                 onClick={() => setIsLangOpen(!isLangOpen)}
-                className="h-9 px-3 flex items-center gap-1.5 border border-border text-muted-foreground hover:text-primary hover:border-primary/50 transition-colors text-sm"
+                className="h-9 px-3 flex items-center gap-1.5 border border-border text-muted-foreground hover:text-primary hover:border-primary/50 transition-all duration-200 text-sm"
               >
                 <Globe className="h-3.5 w-3.5" />
                 <span className="font-medium">{currentLang.code.toUpperCase()}</span>
-                <ChevronDown className={`h-3 w-3 transition-transform ${isLangOpen ? "rotate-180" : ""}`} />
+                <ChevronDown className={`h-3 w-3 transition-transform duration-200 ${isLangOpen ? "rotate-180" : ""}`} />
               </button>
 
               {isLangOpen && (
-                <div className="absolute right-0 top-full mt-1 w-44 bg-popover border border-border shadow-lg z-50">
+                <div className="absolute right-0 top-full mt-1 w-44 bg-popover border border-border shadow-xl shadow-black/30 z-50 animate-in fade-in slide-in-from-top-2 duration-150">
                   {LANGUAGES.map((lang) => (
                     <button
                       key={lang.code}
                       onClick={() => changeLang(lang.code)}
                       className={`w-full flex items-center gap-3 px-4 py-2.5 text-sm hover:bg-accent transition-colors text-left ${
-                        lang.code === i18n.language ? "text-primary font-semibold" : "text-foreground"
+                        lang.code === i18n.language ? "text-primary font-semibold bg-primary/5" : "text-foreground"
                       }`}
                     >
                       <span className="text-base">{lang.flag}</span>
                       <span className="flex-1">{lang.nativeLabel}</span>
+                      {lang.code === i18n.language && (
+                        <span className="h-1.5 w-1.5 rounded-full bg-primary" />
+                      )}
                     </button>
                   ))}
                 </div>
@@ -142,12 +163,12 @@ export function Navbar() {
                     </Button>
                   </div>
                 ) : (
-                  <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-primary">
+                  <Link href="/login" className="text-sm font-medium text-muted-foreground hover:text-primary transition-colors duration-200">
                     {t("nav.clientLogin")}
                   </Link>
                 )}
                 <Link href="/consultation">
-                  <Button className="font-serif">{t("nav.bookConsultation")}</Button>
+                  <Button className="font-serif shadow-sm shadow-primary/20 hover:shadow-primary/40 transition-shadow duration-300">{t("nav.bookConsultation")}</Button>
                 </Link>
               </>
             )}
@@ -163,7 +184,7 @@ export function Navbar() {
           >
             {theme === "dark" ? <Sun className="h-4 w-4" /> : <Moon className="h-4 w-4" />}
           </button>
-          <button className="p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)}>
+          <button className="p-2" onClick={() => setIsMobileMenuOpen(!isMobileMenuOpen)} aria-label="Toggle menu">
             {isMobileMenuOpen ? <X className="h-6 w-6" /> : <Menu className="h-6 w-6" />}
           </button>
         </div>
@@ -171,12 +192,14 @@ export function Navbar() {
 
       {/* Mobile Nav */}
       {isMobileMenuOpen && (
-        <div className="md:hidden border-t border-border bg-background p-4 flex flex-col gap-4">
+        <div className="md:hidden border-t border-border bg-background/98 backdrop-blur-md p-4 flex flex-col gap-4 animate-in slide-in-from-top-2 duration-200">
           {navLinks.map((link) => (
             <Link
               key={link.href}
               href={link.href}
-              className="text-lg font-medium text-muted-foreground hover:text-primary px-2 py-1"
+              className={`text-lg font-medium px-2 py-1 transition-colors ${
+                location.startsWith(link.href) ? "text-primary" : "text-muted-foreground hover:text-primary"
+              }`}
               onClick={() => setIsMobileMenuOpen(false)}
             >
               {link.label}

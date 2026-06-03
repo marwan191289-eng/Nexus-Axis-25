@@ -1,4 +1,5 @@
 import { MainLayout } from "@/components/layout/main-layout";
+import { PageSEO } from "@/components/page-seo";
 import { useListPracticeAreas } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
@@ -85,6 +86,11 @@ export default function PracticeAreas() {
 
   return (
     <MainLayout>
+      <PageSEO
+        title="Practice Areas"
+        path="/practice-areas"
+        description="Full-spectrum legal services across UAE and Egypt: commercial litigation, corporate tax, business setup, international arbitration, real estate law, and HR compliance. Partner-led counsel from AED 500."
+      />
       {/* Hero */}
       <div className="relative py-32 overflow-hidden border-b border-border">
         <img src={heroOfficeImg} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-20" />
