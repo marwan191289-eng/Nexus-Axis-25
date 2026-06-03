@@ -48,6 +48,14 @@ export default function About() {
       bio: t("about.team4Bio"),
       areas: [t("about.team4Area1"), t("about.team4Area2"), t("about.team4Area3")],
     },
+    {
+      img: "/mohab-samy-clean.png",
+      name: t("about.team5Name"),
+      title: t("about.team5Title"),
+      location: t("about.team5Location"),
+      bio: t("about.team5Bio"),
+      areas: [t("about.team5Area1"), t("about.team5Area2"), t("about.team5Area3")],
+    },
   ];
 
   const values = [
