@@ -1,3 +1,4 @@
+import heroOfficeImg from "@assets/hero-office_1780448390987.jpg";
 import { MainLayout } from "@/components/layout/main-layout";
 import { Check, ArrowRight } from "lucide-react";
 import { Button } from "@/components/ui/button";
@@ -147,16 +148,22 @@ export default function Pricing() {
   return (
     <MainLayout>
       {/* Hero */}
-      <div className="bg-card border-b border-border py-28 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
+      <div className="relative py-32 overflow-hidden border-b border-border">
+        <img src={heroOfficeImg} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
         <div className="container mx-auto px-4 md:px-8 relative z-10">
           <div className="max-w-3xl">
-            <p className="text-xs tracking-[0.3em] uppercase text-primary mb-4 font-medium">
-              {t("pricing.badge")}
-            </p>
-            <h1 className="text-4xl md:text-6xl font-serif font-bold mb-6">
+            <div className="flex items-center gap-4 mb-5">
+              <div className="w-8 h-px bg-primary/60" />
+              <p className="text-xs tracking-[0.35em] uppercase text-primary font-semibold">
+                {t("pricing.badge")}
+              </p>
+            </div>
+            <h1 className="text-4xl md:text-6xl font-serif font-bold mb-5">
               {t("pricing.title")}
             </h1>
+            <div className="w-14 h-px bg-gradient-to-r from-primary to-primary/20 mb-5" />
             <p className="text-xl text-muted-foreground leading-relaxed">
               {t("pricing.subtitle")}
             </p>

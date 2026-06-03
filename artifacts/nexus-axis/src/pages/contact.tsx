@@ -1,3 +1,4 @@
+import heroOfficeImg from "@assets/hero-office_1780448390987.jpg";
 import { MainLayout } from "@/components/layout/main-layout";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -56,12 +57,17 @@ export default function Contact() {
   return (
     <MainLayout>
       {/* Page Header */}
-      <div className="bg-card border-b border-border py-20 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
-        <div className="absolute top-0 end-0 w-96 h-96 bg-primary/3 rounded-full blur-3xl pointer-events-none" />
+      <div className="relative py-32 overflow-hidden border-b border-border">
+        <img src={heroOfficeImg} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-20" />
+        <div className="absolute inset-0 bg-gradient-to-r from-background via-background/85 to-background/60" />
+        <div className="absolute inset-0 bg-gradient-to-t from-background/80 to-transparent" />
         <div className="container mx-auto px-4 md:px-8 relative z-10">
-          <p className="text-xs tracking-[0.3em] uppercase text-primary mb-4 font-medium">{t("contact.badge", { defaultValue: "Get In Touch" })}</p>
-          <h1 className="text-4xl md:text-6xl font-serif font-bold mb-4">{t("contact.initiateTitle")}</h1>
+          <div className="flex items-center gap-4 mb-5">
+            <div className="w-8 h-px bg-primary/60" />
+            <p className="text-xs tracking-[0.35em] uppercase text-primary font-semibold">{t("contact.badge", { defaultValue: "Get In Touch" })}</p>
+          </div>
+          <h1 className="text-4xl md:text-6xl font-serif font-bold mb-5">{t("contact.initiateTitle")}</h1>
+          <div className="w-14 h-px bg-gradient-to-r from-primary to-primary/20 mb-5" />
           <p className="text-xl text-muted-foreground leading-relaxed max-w-2xl">{t("contact.initiateDesc")}</p>
         </div>
       </div>

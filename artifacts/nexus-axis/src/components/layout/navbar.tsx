@@ -6,7 +6,7 @@ import { useState, useRef, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 import { useTheme } from "@/hooks/use-theme";
 import { LANGUAGES, applyLanguageToDOM } from "@/i18n/index";
-import logoPath from "../../assets/logo.svg";
+const logoPath = "/nexus-logo.png";
 
 export function Navbar() {
   const [location] = useLocation();
@@ -47,16 +47,8 @@ export function Navbar() {
   return (
     <nav className="sticky top-0 z-50 w-full border-b border-border/40 bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto px-4 md:px-8 h-20 flex items-center justify-between">
-        <Link href="/" className="flex items-center gap-3 group">
-          <img src={logoPath} alt="Nexus Axis Consultants" className="h-12 w-auto" />
-          <div className="hidden sm:flex flex-col leading-tight">
-            <span className="font-serif font-bold text-base text-foreground tracking-wide group-hover:text-primary transition-colors">
-              Nexus Axis
-            </span>
-            <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-medium">
-              Consultants
-            </span>
-          </div>
+        <Link href="/" className="flex items-center group">
+          <img src={logoPath} alt="Nexus Axis Consultants" className="h-16 w-auto object-contain" />
         </Link>
 
         {/* Desktop Nav */}

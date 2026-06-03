@@ -16,12 +16,13 @@ import receptionImg from "../assets/reception.jpg";
 import meetingRoomImg from "../assets/meeting-room.jpg";
 import partnerOfficeImg from "../assets/partner-office.jpg";
 import office3Img from "../assets/office3.jpg";
+import heroOfficeImg from "@assets/hero-office_1780448390987.jpg";
 
 function slugToCamel(slug: string): string {
   return slug.replace(/-([a-z])/g, (_, c: string) => c.toUpperCase());
 }
 
-const HERO_IMAGE_SRCS = [libraryImg, receptionImg, meetingRoomImg, partnerOfficeImg, office1Img];
+const HERO_IMAGE_SRCS = [heroOfficeImg, libraryImg, receptionImg, meetingRoomImg, partnerOfficeImg];
 const GALLERY_IMAGE_SRCS = [receptionImg, office2Img, meetingRoomImg, office3Img, partnerOfficeImg, office1Img];
 
 interface StatCounterProps {
@@ -91,14 +92,15 @@ function HeroCarousel({ images }: { images: HeroImage[] }) {
           key={i}
           src={img.src}
           alt={img.label}
-          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1400ms] ease-in-out ${
-            i === current ? "opacity-50" : "opacity-0"
+          className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-[1600ms] ease-in-out ${
+            i === current ? "opacity-70" : "opacity-0"
           }`}
           style={{ zIndex: i === current ? 2 : i === prev ? 1 : 0 }}
         />
       ))}
-      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/75 to-background/15 z-10" />
-      <div className="absolute inset-0 bg-gradient-to-r from-background via-background/55 to-transparent z-10" />
+      <div className="absolute inset-0 bg-gradient-to-t from-background via-background/70 to-background/10 z-10" />
+      <div className="absolute inset-0 bg-gradient-to-r from-background/90 via-background/50 to-transparent z-10" />
+      <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_bottom_right,_hsl(var(--primary)/0.08)_0%,_transparent_60%)] z-10" />
 
       <div className="absolute bottom-8 right-8 flex items-center gap-3 z-20">
         <button
@@ -165,49 +167,55 @@ export default function Home() {
   return (
     <MainLayout>
       {/* ── Hero ── */}
-      <section className="relative min-h-[92vh] flex items-center pt-20 pb-36 overflow-hidden">
+      <section className="relative min-h-[95vh] flex items-center pt-16 pb-32 overflow-hidden">
         <HeroCarousel images={heroImages} />
 
         <div className="container mx-auto px-4 md:px-8 relative z-10">
-          <div className="max-w-3xl space-y-8 animate-in fade-in slide-in-from-bottom-8 duration-1000">
-            <div className="inline-flex items-center gap-2 px-4 py-1.5 text-sm border border-primary/30 text-primary rounded-full bg-primary/5 backdrop-blur-sm">
-              <Scale className="h-4 w-4 shrink-0" aria-hidden="true" />
-              <span className="font-medium">{t("hero.badge")}</span>
+          <div className="max-w-3xl space-y-9 animate-in fade-in slide-in-from-bottom-8 duration-1000">
+            {/* Elegant overline */}
+            <div className="flex items-center gap-4">
+              <div className="w-10 h-px bg-primary/60" />
+              <span className="text-xs font-semibold tracking-[0.35em] uppercase text-primary/80">
+                {t("hero.badge")}
+              </span>
             </div>
 
-            <h1 className="text-5xl md:text-7xl font-serif font-bold tracking-tight text-foreground leading-[1.05]">
+            <h1 className="text-5xl md:text-7xl lg:text-8xl font-serif font-bold tracking-tight text-foreground leading-[1.02]">
               {t("hero.title1")}<br />
-              <span className="text-primary">{t("hero.title2")}</span>
+              <span className="text-primary italic">{t("hero.title2")}</span>
             </h1>
 
-            <p className="text-lg md:text-xl text-muted-foreground leading-relaxed max-w-2xl">
+            {/* Gold divider */}
+            <div className="w-16 h-px bg-gradient-to-r from-primary to-primary/20" />
+
+            <p className="text-lg md:text-xl text-muted-foreground/90 leading-relaxed max-w-xl">
               {t("hero.subtitle")}
             </p>
 
             <div className="flex flex-col sm:flex-row gap-4 pt-2">
               <Link href="/consultation">
-                <Button size="lg" className="w-full sm:w-auto font-serif text-lg h-14 px-10 shadow-lg shadow-primary/20">
+                <Button size="lg" className="w-full sm:w-auto font-serif text-base h-14 px-10 tracking-wide shadow-lg shadow-primary/25 hover:shadow-primary/40 transition-shadow">
                   {t("hero.cta")}
-                  <ArrowRight className="ms-2 h-5 w-5" aria-hidden="true" />
+                  <ArrowRight className="ms-2 h-4 w-4" aria-hidden="true" />
                 </Button>
               </Link>
               <Link href="/practice-areas">
-                <Button variant="outline" size="lg" className="w-full sm:w-auto h-14 px-8 border-border/60 hover:bg-primary/5 hover:border-primary/40 backdrop-blur-sm">
+                <Button variant="outline" size="lg" className="w-full sm:w-auto h-14 px-8 border-border/50 hover:bg-primary/5 hover:border-primary/50 backdrop-blur-sm tracking-wide">
                   {t("hero.expertise")}
                 </Button>
               </Link>
             </div>
 
             {/* Trust badges */}
-            <div className="flex flex-wrap gap-6 pt-4 border-t border-border/30">
+            <div className="flex flex-wrap gap-8 pt-2 border-t border-border/20">
               {[
                 { icon: Award, text: t("home.trustBadge1") },
                 { icon: Shield, text: t("home.trustBadge2") },
                 { icon: Star, text: t("home.trustBadge3") },
               ].map(({ icon: Icon, text }) => (
-                <div key={text} className="flex items-center gap-2 text-sm text-muted-foreground">
-                  <Icon className="h-4 w-4 text-primary shrink-0" aria-hidden="true" />
-                  <span>{text}</span>
+                <div key={text} className="flex items-center gap-2.5 text-sm text-muted-foreground/70">
+                  <Icon className="h-3.5 w-3.5 text-primary/70 shrink-0" aria-hidden="true" />
+                  <span className="tracking-wide">{text}</span>
                 </div>
               ))}
             </div>

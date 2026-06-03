@@ -1,6 +1,6 @@
 import { Link } from "wouter";
 import { MapPin, Phone, Mail, ArrowRight } from "lucide-react";
-import logoPath from "../../assets/logo.svg";
+const logoPath = "/nexus-logo.png";
 import { useTranslation } from "react-i18next";
 
 function WhatsAppIcon({ className }: { className?: string }) {
@@ -22,16 +22,8 @@ export function Footer() {
 
           {/* Brand column */}
           <div className="sm:col-span-2 lg:col-span-1 space-y-5">
-            <Link href="/" className="inline-flex items-center gap-3 group" aria-label="Nexus Axis Consultants — Home">
-              <img src={logoPath} alt="" aria-hidden="true" className="h-14 w-auto" />
-              <div className="flex flex-col leading-tight">
-                <span className="font-serif font-bold text-base text-foreground tracking-wide group-hover:text-primary transition-colors">
-                  Nexus Axis
-                </span>
-                <span className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground font-medium">
-                  Consultants
-                </span>
-              </div>
+            <Link href="/" className="inline-flex items-center group" aria-label="Nexus Axis Consultants — Home">
+              <img src={logoPath} alt="" aria-hidden="true" className="h-20 w-auto object-contain" />
             </Link>
             <p className="text-sm text-muted-foreground leading-relaxed max-w-xs">
               {t("footer.tagline")}
