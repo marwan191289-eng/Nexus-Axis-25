@@ -42,24 +42,30 @@ function getIcon(iconName: string | null | undefined): LucideIcon {
 }
 
 const CATEGORY_MAP: Record<number, string> = {
-  1: "litigation",
-  2: "corporate",
-  3: "corporate",
-  4: "corporate",
-  5: "litigation",
-  6: "litigation",
-  7: "litigation",
-  8: "corporate",
-  9: "specialist",
-  10: "corporate",
-  11: "specialist",
-  12: "specialist",
-  13: "specialist",
-  14: "litigation",
-  15: "specialist",
-  16: "litigation",
-  17: "specialist",
-  18: "corporate",
+  2: "litigation",   // Commercial Litigation
+  3: "corporate",    // Corporate Tax Advisory
+  4: "corporate",    // Business Setup & Licensing
+  5: "corporate",    // HR & Labour Compliance
+  6: "litigation",   // International Arbitration
+  7: "litigation",   // Real Estate Law
+  8: "corporate",    // Corporate Governance
+  9: "corporate",    // Banking & Finance
+  10: "specialist",  // Maritime & Shipping Law
+  11: "corporate",   // Mergers & Acquisitions
+  12: "specialist",  // Intellectual Property
+  13: "specialist",  // Data Protection & Privacy
+  14: "specialist",  // Construction & Infrastructure
+  15: "litigation",  // Criminal Defence (White Collar)
+  16: "specialist",  // Family & Personal Law
+  17: "specialist",  // Aviation Law
+  18: "corporate",   // Regulatory & Compliance
+  19: "specialist",  // Wills & Estate Planning
+  20: "specialist",  // Competition & Antitrust Law
+  21: "corporate",   // Islamic Finance & Sukuk
+  22: "corporate",   // Tax Disputes & FTA Representation
+  23: "specialist",  // Fintech, Digital Assets & Crypto Law
+  24: "specialist",  // Healthcare & Life Sciences Law
+  25: "corporate",   // Restructuring & Insolvency
 };
 
 import { useState } from "react";
