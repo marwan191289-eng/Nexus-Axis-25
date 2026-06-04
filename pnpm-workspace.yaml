@@ -68,11 +68,6 @@ catalog:
 
 autoInstallPeers: false
 
-onlyBuiltDependencies:
-  - '@swc/core'
-  - esbuild
-  - msw
-  - unrs-resolver
 
 overrides:
   # replit uses linux-x64 only, we can exclude all other platforms
@@ -161,5 +156,3 @@ overrides:
   # qs has a remotely-triggerable DoS in <=6.15.1 (GHSA-q8mj-m7cp-5q26)
   qs: ">=6.15.2"
 
-allowBuilds:
-  esbuild: set this to true or false
