@@ -127,6 +127,7 @@ const en = {
     team: "The Team",
     leadership: "Leadership",
     teamDesc: "Our partners combine deep academic credentials with decades of frontline practice in some of the region's most complex matters.",
+    otherTeam: "Senior Partners & Counsel",
     locations: "Locations",
     strongholds: "Our Strongholds",
     uaeHQ: "UAE Headquarters",
@@ -170,6 +171,7 @@ const en = {
     team5Area1: "Corporate Transactions",
     team5Area2: "M&A & Investment",
     team5Area3: "Cross-Border Disputes",
+    founders: "Founders",
   },
   practiceAreas: {
     badge: "Full-Spectrum Legal Services",

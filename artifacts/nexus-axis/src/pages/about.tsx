@@ -19,7 +19,7 @@ export default function About() {
   const leadership = [
     {
       img: marwanImg,
-      imgFit: "object-cover object-[center_18%]",
+      imgFit: "object-cover object-center",
       name: t("about.team1Name"),
       title: t("about.team1Title"),
       location: t("about.team1Location"),
@@ -29,8 +29,7 @@ export default function About() {
     },
     {
       img: "/mohab-samy-clean.png",
-      imgFit: "object-contain object-bottom",
-      imgBg: "bg-gradient-to-b from-neutral-800 to-neutral-900",
+      imgFit: "object-cover object-center",
       name: t("about.team5Name"),
       title: t("about.team5Title"),
       location: t("about.team5Location"),
@@ -167,15 +166,16 @@ export default function About() {
             <p className="text-muted-foreground text-lg max-w-2xl">{t("about.teamDesc")}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {leadership.map((person, i) => (
+          {/* Founders Section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            {leadership.filter(p => p.founder).map((person, i) => (
               <SectionReveal key={person.name} delay={i * 100}>
-                <div className="group bg-card border border-border hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 overflow-hidden flex flex-col md:flex-row">
-                  <div className={`md:w-48 shrink-0 overflow-hidden ${person.imgBg ?? "bg-neutral-900"}`} style={{ minHeight: "220px" }}>
+                <div className="group bg-card border border-border hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 overflow-hidden flex flex-col">
+                  <div className={`w-full overflow-hidden ${person.imgBg ?? "bg-neutral-900"}`} style={{ minHeight: "300px" }}>
                     <img
                       src={person.img}
                       alt={person.name}
-                      className={`w-full h-56 md:h-full ${person.imgFit ?? "object-cover object-center"} grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out`}
+                      className={`w-full h-full ${person.imgFit ?? "object-cover object-center"} grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out`}
                     />
                   </div>
                   <div className="p-7 flex flex-col justify-between flex-1">
@@ -184,7 +184,7 @@ export default function About() {
                         <h3 className="font-serif text-xl font-bold group-hover:text-primary transition-colors">{person.name}</h3>
                         {person.founder && (
                           <span className="text-[10px] px-2 py-0.5 bg-primary/15 text-primary border border-primary/25 font-semibold uppercase tracking-wider">
-                            Founder
+                            Founder & Partner
                           </span>
                         )}
                       </div>
@@ -206,6 +206,46 @@ export default function About() {
                 </div>
               </SectionReveal>
             ))}
+          </div>
+
+          {/* Other Team Members */}
+          <div>
+            <h3 className="text-2xl md:text-3xl font-serif font-bold mb-8">{t("about.otherTeam")}</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {leadership.filter(p => !p.founder).map((person, i) => (
+                <SectionReveal key={person.name} delay={i * 100}>
+                  <div className="group bg-card border border-border hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 overflow-hidden flex flex-col">
+                    <div className={`w-full overflow-hidden ${person.imgBg ?? "bg-neutral-900"}`} style={{ minHeight: "300px" }}>
+                      <img
+                        src={person.img}
+                        alt={person.name}
+                        className={`w-full h-full ${person.imgFit ?? "object-cover object-center"} grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out`}
+                      />
+                    </div>
+                    <div className="p-7 flex flex-col justify-between flex-1">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-serif text-xl font-bold group-hover:text-primary transition-colors">{person.name}</h3>
+                        </div>
+                        <p className="text-primary text-sm font-semibold tracking-wide uppercase mb-1">{person.title}</p>
+                        <div className="flex items-center gap-1 text-muted-foreground text-xs mb-4">
+                          <MapPin className="h-3 w-3" />
+                          {person.location}
+                        </div>
+                        <p className="text-muted-foreground text-sm leading-relaxed mb-5">{person.bio}</p>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {person.areas.map((area) => (
+                          <span key={area} className="text-xs px-3 py-1 bg-primary/10 text-primary border border-primary/20 font-medium">
+                            {area}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </SectionReveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>
