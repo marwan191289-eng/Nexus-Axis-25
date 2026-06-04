@@ -18,6 +18,8 @@ export default function About() {
   const leadership = [
     {
       img: marwanImg,
+      objectPosition: "50% 18%",
+      extraImgClass: "",
       name: t("about.team1Name"),
       title: t("about.team1Title"),
       location: t("about.team1Location"),
@@ -26,6 +28,8 @@ export default function About() {
     },
     {
       img: leader2Img,
+      objectPosition: "50% 12%",
+      extraImgClass: "",
       name: t("about.team2Name"),
       title: t("about.team2Title"),
       location: t("about.team2Location"),
@@ -34,6 +38,8 @@ export default function About() {
     },
     {
       img: leader3Img,
+      objectPosition: "50% 10%",
+      extraImgClass: "brightness-125 contrast-110",
       name: t("about.team3Name"),
       title: t("about.team3Title"),
       location: t("about.team3Location"),
@@ -42,6 +48,8 @@ export default function About() {
     },
     {
       img: leader4Img,
+      objectPosition: "50% 12%",
+      extraImgClass: "",
       name: t("about.team4Name"),
       title: t("about.team4Title"),
       location: t("about.team4Location"),
@@ -146,11 +154,12 @@ export default function About() {
             {leadership.map((person, i) => (
               <SectionReveal key={person.name} delay={i * 100}>
                 <div className="group bg-card border border-border hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 overflow-hidden flex flex-col md:flex-row">
-                  <div className="md:w-52 shrink-0 overflow-hidden">
+                  <div className="md:w-64 shrink-0 overflow-hidden">
                     <img
                       src={person.img}
                       alt={person.name}
-                      className="w-full h-64 md:h-full object-cover object-top grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out"
+                      style={{ objectPosition: person.objectPosition }}
+                      className={`w-full h-64 md:h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out ${person.extraImgClass}`}
                     />
                   </div>
                   <div className="p-8 flex flex-col justify-between">
