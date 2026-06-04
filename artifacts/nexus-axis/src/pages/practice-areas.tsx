@@ -85,7 +85,7 @@ export default function PracticeAreas() {
     { label: t("practiceAreas.specialist"), value: "specialist" },
   ];
 
-  const areasList: typeof areas = Array.isArray(areas) ? areas : (areas as any)?.data ?? [];
+  const areasList: any[] = Array.isArray(areas) ? areas : (areas as any)?.data ?? [];
   const filtered = areasList.filter((area) =>
     activeCategory === "all" ? true : CATEGORY_MAP[area.id] === activeCategory
   );

@@ -7,7 +7,7 @@ const router: IRouter = Router();
 
 /* ── Admin auth middleware ── */
 async function requireAdmin(req: Request, res: Response, next: NextFunction): Promise<void> {
-  const userId = (req.session as Record<string, unknown>).userId as number | undefined;
+  const userId = req.session.userId;
   if (!userId) {
     res.status(401).json({ error: "Not authenticated" });
     return;
@@ -132,7 +132,7 @@ router.patch("/admin/users/:id", requireAdmin, async (req, res): Promise<void> =
 
 /* ── POST /admin/setup ── */
 router.post("/admin/setup", async (req, res): Promise<void> => {
-  const userId = (req.session as Record<string, unknown>).userId as number | undefined;
+  const userId = req.session.userId;
   if (!userId) { res.status(401).json({ error: "Not authenticated" }); return; }
   const [adminCount] = await db.select({ count: count() }).from(usersTable).where(eq(usersTable.isAdmin, true));
   if (Number(adminCount?.count ?? 0) > 0) { res.status(403).json({ error: "An admin already exists." }); return; }

@@ -114,7 +114,7 @@ export default function Consultation() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {areas?.map(area => (
+                            {areas?.map((area: any) => (
                               <SelectItem key={area.id} value={area.id.toString()}>{area.title}</SelectItem>
                             ))}
                           </SelectContent>

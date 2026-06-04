@@ -68,7 +68,7 @@ export default function Blog() {
               <Skeleton key={i} className="h-96 bg-card border border-border" />
             ))
           ) : posts.length > 0 ? (
-            posts.map((post) => (
+            posts.map((post: any) => (
               <Link
                 key={post.id}
                 href={`/blog/${post.id}`}

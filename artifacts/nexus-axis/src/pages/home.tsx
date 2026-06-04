@@ -143,7 +143,7 @@ export default function Home() {
   const { t } = useTranslation();
   const { data: stats, isLoading: statsLoading } = useGetStats();
   const { data: areas, isLoading: areasLoading } = useListPracticeAreas();
-  const { data: posts } = useListBlogPosts({ query: { queryKey: ["blog-posts", { limit: 3 }] }});
+  const { data: posts } = useListBlogPosts({ limit: 3 }, { query: { queryKey: ["blog-posts", { limit: 3 }] }});
 
   const areasList = Array.isArray(areas) ? areas : [];
   const postsList = Array.isArray(posts) ? posts : [];

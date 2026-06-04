@@ -19,7 +19,7 @@ export default function About() {
   const leadership = [
     {
       img: marwanImg,
-      imgFit: "object-cover object-center",
+      imgFit: "object-cover object-center", imgBg: "bg-neutral-900",
       name: t("about.team1Name"),
       title: t("about.team1Title"),
       location: t("about.team1Location"),
@@ -29,7 +29,7 @@ export default function About() {
     },
     {
       img: "/mohab-samy-clean.png",
-      imgFit: "object-cover object-center",
+      imgFit: "object-cover object-center", imgBg: "bg-neutral-900",
       name: t("about.team5Name"),
       title: t("about.team5Title"),
       location: t("about.team5Location"),
@@ -39,7 +39,7 @@ export default function About() {
     },
     {
       img: leader2Img,
-      imgFit: "object-cover object-top",
+      imgFit: "object-cover object-top", imgBg: "bg-neutral-900",
       name: t("about.team2Name"),
       title: t("about.team2Title"),
       location: t("about.team2Location"),
@@ -49,7 +49,7 @@ export default function About() {
     },
     {
       img: leader3Img,
-      imgFit: "object-cover object-top",
+      imgFit: "object-cover object-top", imgBg: "bg-neutral-900",
       name: t("about.team3Name"),
       title: t("about.team3Title"),
       location: t("about.team3Location"),
@@ -59,7 +59,7 @@ export default function About() {
     },
     {
       img: leader4Img,
-      imgFit: "object-cover object-top",
+      imgFit: "object-cover object-top", imgBg: "bg-neutral-900",
       name: t("about.team4Name"),
       title: t("about.team4Title"),
       location: t("about.team4Location"),
