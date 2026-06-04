@@ -1,4 +1,5 @@
 import { MainLayout } from "@/components/layout/main-layout";
+import { PageSEO } from "@/components/page-seo";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -58,6 +59,11 @@ export default function Consultation() {
 
   return (
     <MainLayout>
+      <PageSEO
+        title="Book a Consultation"
+        path="/consultation"
+        description="Schedule a confidential legal consultation with Nexus Axis Consultants. 30, 60, or 90-minute sessions from AED 500. Expert advice on commercial litigation, corporate tax, business setup, and more."
+      />
       <div className="container mx-auto px-4 md:px-8 py-24 max-w-6xl">
         <div className="text-center mb-16 max-w-3xl mx-auto">
           <h1 className="text-4xl md:text-5xl font-serif font-bold mb-6">{t("consultation.title")}</h1>
@@ -108,7 +114,7 @@ export default function Consultation() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {areas?.map(area => (
+                            {areas?.map((area: any) => (
                               <SelectItem key={area.id} value={area.id.toString()}>{area.title}</SelectItem>
                             ))}
                           </SelectContent>

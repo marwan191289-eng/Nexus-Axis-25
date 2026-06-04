@@ -1,0 +1,39 @@
+{
+  "name": "Nexus Axis Consultants",
+  "short_name": "Nexus Axis",
+  "description": "Premier boutique law firm serving UAE and Egypt since 2009. Commercial litigation, corporate tax, international arbitration & more.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait-primary",
+  "background_color": "#080B10",
+  "theme_color": "#C9A55A",
+  "categories": ["legal", "business", "finance"],
+  "lang": "en",
+  "icons": [
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Book Consultation",
+      "short_name": "Book",
+      "description": "Schedule a legal consultation",
+      "url": "/consultation",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    },
+    {
+      "name": "Practice Areas",
+      "short_name": "Services",
+      "description": "Explore our legal practice areas",
+      "url": "/practice-areas",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any" }]
+    }
+  ],
+  "related_applications": [],
+  "prefer_related_applications": false
+}

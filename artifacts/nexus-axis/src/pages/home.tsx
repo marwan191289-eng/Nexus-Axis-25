@@ -1,6 +1,7 @@
 import { Link } from "wouter";
 import { Button } from "@/components/ui/button";
 import { useGetStats, useListPracticeAreas, useListBlogPosts } from "@workspace/api-client-react";
+import { PageSEO } from "@/components/page-seo";
 import { ArrowRight, Briefcase, ChevronRight, MapPin, Scale, Shield, Award, Clock, Users, Star, ChevronLeft } from "lucide-react";
 import { MainLayout } from "@/components/layout/main-layout";
 import { Skeleton } from "@/components/ui/skeleton";
@@ -142,7 +143,7 @@ export default function Home() {
   const { t } = useTranslation();
   const { data: stats, isLoading: statsLoading } = useGetStats();
   const { data: areas, isLoading: areasLoading } = useListPracticeAreas();
-  const { data: posts } = useListBlogPosts({ query: { queryKey: ["blog-posts", { limit: 3 }] }});
+  const { data: posts } = useListBlogPosts({ limit: 3 }, { query: { queryKey: ["blog-posts", { limit: 3 }] }});
 
   const areasList = Array.isArray(areas) ? areas : [];
   const postsList = Array.isArray(posts) ? posts : [];
@@ -166,6 +167,10 @@ export default function Home() {
 
   return (
     <MainLayout>
+      <PageSEO
+        path="/"
+        description="Nexus Axis Consultants — Premier boutique law firm serving UAE and Egypt since 2009. Commercial litigation, corporate tax, business setup, international arbitration, and real estate law. Offices in Ajman & Cairo."
+      />
       {/* ── Hero ── */}
       <section className="relative min-h-[95vh] flex items-center pt-16 pb-32 overflow-hidden">
         <HeroCarousel images={heroImages} />

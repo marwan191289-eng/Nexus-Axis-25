@@ -1,5 +1,6 @@
 import heroOfficeImg from "@assets/hero-office_1780448390987.jpg";
 import { MainLayout } from "@/components/layout/main-layout";
+import { PageSEO } from "@/components/page-seo";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import * as z from "zod";
@@ -56,6 +57,11 @@ export default function Contact() {
 
   return (
     <MainLayout>
+      <PageSEO
+        title="Contact Us"
+        path="/contact"
+        description="Get in touch with Nexus Axis Consultants. Offices in Ajman, UAE and Cairo, Egypt. Call +971 585 592 355 or message us on WhatsApp for a confidential discussion about your legal matter."
+      />
       {/* Page Header */}
       <div className="relative py-32 overflow-hidden border-b border-border">
         <img src={heroOfficeImg} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-20" />

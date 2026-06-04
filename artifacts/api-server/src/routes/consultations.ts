@@ -20,7 +20,7 @@ const PRICES: Record<string, number> = {
 };
 
 router.get("/consultations", async (req, res): Promise<void> => {
-  const userId = (req.session as Record<string, unknown>).userId as number | undefined;
+  const userId = req.session.userId;
 
   const rows = await db.select({
     consultation: consultationsTable,
@@ -49,7 +49,7 @@ router.post("/consultations", async (req, res): Promise<void> => {
     return;
   }
 
-  const userId = (req.session as Record<string, unknown>).userId as number | undefined;
+  const userId = req.session.userId;
   const { clientName, clientEmail, clientPhone, practiceAreaId, durationType, scheduledAt, notes } = parsed.data;
 
   const price = PRICES[durationType] ?? 500;

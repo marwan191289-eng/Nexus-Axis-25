@@ -1,4 +1,5 @@
 import { MainLayout } from "@/components/layout/main-layout";
+import { PageSEO } from "@/components/page-seo";
 import { MapPin, Building2, Gavel, Scale, Globe } from "lucide-react";
 import libraryImg from "@assets/library_1779665186892.jpg";
 import marwanImg from "@assets/marwan-negm_1779665186899.jpg";
@@ -18,43 +19,53 @@ export default function About() {
   const leadership = [
     {
       img: marwanImg,
-      objectPosition: "50% 18%",
-      extraImgClass: "",
+      imgFit: "object-cover object-center", imgBg: "bg-neutral-900",
       name: t("about.team1Name"),
       title: t("about.team1Title"),
       location: t("about.team1Location"),
       bio: t("about.team1Bio"),
       areas: [t("about.team1Area1"), t("about.team1Area2"), t("about.team1Area3")],
+      founder: true,
+    },
+    {
+      img: "/mohab-samy-clean.png",
+      imgFit: "object-cover object-center", imgBg: "bg-neutral-900",
+      name: t("about.team5Name"),
+      title: t("about.team5Title"),
+      location: t("about.team5Location"),
+      bio: t("about.team5Bio"),
+      areas: [t("about.team5Area1"), t("about.team5Area2"), t("about.team5Area3")],
+      founder: true,
     },
     {
       img: leader2Img,
-      objectPosition: "50% 12%",
-      extraImgClass: "",
+      imgFit: "object-cover object-top", imgBg: "bg-neutral-900",
       name: t("about.team2Name"),
       title: t("about.team2Title"),
       location: t("about.team2Location"),
       bio: t("about.team2Bio"),
       areas: [t("about.team2Area1"), t("about.team2Area2"), t("about.team2Area3")],
+      founder: false,
     },
     {
       img: leader3Img,
-      objectPosition: "50% 10%",
-      extraImgClass: "brightness-125 contrast-110",
+      imgFit: "object-cover object-top", imgBg: "bg-neutral-900",
       name: t("about.team3Name"),
       title: t("about.team3Title"),
       location: t("about.team3Location"),
       bio: t("about.team3Bio"),
       areas: [t("about.team3Area1"), t("about.team3Area2"), t("about.team3Area3")],
+      founder: false,
     },
     {
       img: leader4Img,
-      objectPosition: "50% 12%",
-      extraImgClass: "",
+      imgFit: "object-cover object-top", imgBg: "bg-neutral-900",
       name: t("about.team4Name"),
       title: t("about.team4Title"),
       location: t("about.team4Location"),
       bio: t("about.team4Bio"),
       areas: [t("about.team4Area1"), t("about.team4Area2"), t("about.team4Area3")],
+      founder: false,
     },
   ];
 
@@ -67,6 +78,11 @@ export default function About() {
 
   return (
     <MainLayout>
+      <PageSEO
+        title="About Us"
+        path="/about"
+        description="Meet the leadership of Nexus Axis Consultants — a premier boutique law firm established in 2009 with offices in Ajman, UAE and Cairo, Egypt. Elite partners across commercial litigation, corporate law, and international arbitration."
+      />
       {/* Hero */}
       <div className="relative h-[60vh] min-h-[480px] overflow-hidden">
         <img
@@ -150,29 +166,34 @@ export default function About() {
             <p className="text-muted-foreground text-lg max-w-2xl">{t("about.teamDesc")}</p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-            {leadership.map((person, i) => (
+          {/* Founders Section */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-16">
+            {leadership.filter(p => p.founder).map((person, i) => (
               <SectionReveal key={person.name} delay={i * 100}>
-                <div className="group bg-card border border-border hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 overflow-hidden flex flex-col md:flex-row">
-                  <div className="md:w-64 shrink-0 overflow-hidden">
+                <div className="group bg-card border border-border hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 overflow-hidden flex flex-col">
+                  <div className={`w-full overflow-hidden ${person.imgBg ?? "bg-neutral-900"}`} style={{ minHeight: "300px" }}>
                     <img
                       src={person.img}
                       alt={person.name}
-                      style={{ objectPosition: person.objectPosition }}
-                      className={`w-full h-64 md:h-full object-cover grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out ${person.extraImgClass}`}
+                      className={`w-full h-full ${person.imgFit ?? "object-cover object-center"} grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out`}
                     />
                   </div>
-                  <div className="p-8 flex flex-col justify-between">
+                  <div className="p-7 flex flex-col justify-between flex-1">
                     <div>
-                      <div className="flex items-start justify-between gap-4 mb-1">
+                      <div className="flex items-center gap-2 mb-1">
                         <h3 className="font-serif text-xl font-bold group-hover:text-primary transition-colors">{person.name}</h3>
+                        {person.founder && (
+                          <span className="text-[10px] px-2 py-0.5 bg-primary/15 text-primary border border-primary/25 font-semibold uppercase tracking-wider">
+                            Founder & Partner
+                          </span>
+                        )}
                       </div>
                       <p className="text-primary text-sm font-semibold tracking-wide uppercase mb-1">{person.title}</p>
-                      <div className="flex items-center gap-1 text-muted-foreground text-xs mb-5">
+                      <div className="flex items-center gap-1 text-muted-foreground text-xs mb-4">
                         <MapPin className="h-3 w-3" />
                         {person.location}
                       </div>
-                      <p className="text-muted-foreground text-sm leading-relaxed mb-6">{person.bio}</p>
+                      <p className="text-muted-foreground text-sm leading-relaxed mb-5">{person.bio}</p>
                     </div>
                     <div className="flex flex-wrap gap-2">
                       {person.areas.map((area) => (
@@ -185,6 +206,46 @@ export default function About() {
                 </div>
               </SectionReveal>
             ))}
+          </div>
+
+          {/* Other Team Members */}
+          <div>
+            <h3 className="text-2xl md:text-3xl font-serif font-bold mb-8">{t("about.otherTeam")}</h3>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+              {leadership.filter(p => !p.founder).map((person, i) => (
+                <SectionReveal key={person.name} delay={i * 100}>
+                  <div className="group bg-card border border-border hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 overflow-hidden flex flex-col">
+                    <div className={`w-full overflow-hidden ${person.imgBg ?? "bg-neutral-900"}`} style={{ minHeight: "300px" }}>
+                      <img
+                        src={person.img}
+                        alt={person.name}
+                        className={`w-full h-full ${person.imgFit ?? "object-cover object-center"} grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out`}
+                      />
+                    </div>
+                    <div className="p-7 flex flex-col justify-between flex-1">
+                      <div>
+                        <div className="flex items-center gap-2 mb-1">
+                          <h3 className="font-serif text-xl font-bold group-hover:text-primary transition-colors">{person.name}</h3>
+                        </div>
+                        <p className="text-primary text-sm font-semibold tracking-wide uppercase mb-1">{person.title}</p>
+                        <div className="flex items-center gap-1 text-muted-foreground text-xs mb-4">
+                          <MapPin className="h-3 w-3" />
+                          {person.location}
+                        </div>
+                        <p className="text-muted-foreground text-sm leading-relaxed mb-5">{person.bio}</p>
+                      </div>
+                      <div className="flex flex-wrap gap-2">
+                        {person.areas.map((area) => (
+                          <span key={area} className="text-xs px-3 py-1 bg-primary/10 text-primary border border-primary/20 font-medium">
+                            {area}
+                          </span>
+                        ))}
+                      </div>
+                    </div>
+                  </div>
+                </SectionReveal>
+              ))}
+            </div>
           </div>
         </div>
       </section>

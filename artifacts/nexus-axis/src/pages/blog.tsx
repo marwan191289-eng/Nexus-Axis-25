@@ -1,4 +1,5 @@
 import { MainLayout } from "@/components/layout/main-layout";
+import { PageSEO } from "@/components/page-seo";
 import { useListBlogPosts } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import { Link } from "wouter";
@@ -24,6 +25,11 @@ export default function Blog() {
 
   return (
     <MainLayout>
+      <PageSEO
+        title="Legal Insights"
+        path="/blog"
+        description="Strategic legal analysis, regulatory updates, and commercial intelligence from the partners of Nexus Axis Consultants. Covering UAE law, Egyptian law, corporate tax, and MENA business."
+      />
       <div className="bg-card border-b border-border py-24 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
         <div className="container mx-auto px-4 md:px-8 relative z-10">
@@ -62,7 +68,7 @@ export default function Blog() {
               <Skeleton key={i} className="h-96 bg-card border border-border" />
             ))
           ) : posts.length > 0 ? (
-            posts.map((post) => (
+            posts.map((post: any) => (
               <Link
                 key={post.id}
                 href={`/blog/${post.id}`}

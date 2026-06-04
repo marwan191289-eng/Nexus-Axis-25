@@ -1,11 +1,12 @@
 import { MainLayout } from "@/components/layout/main-layout";
+import { PageSEO } from "@/components/page-seo";
 import { useListPracticeAreas } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import {
   Scale, Calculator, Building2, Users, Globe, Home,
   Shield, Landmark, Anchor, Heart, Lightbulb, Umbrella,
   Gavel, Lock, HardHat, Plane, TrendingUp, Briefcase,
-  ChevronRight, Building,
+  ChevronRight, Building, Star, FileText, ScrollText,
 } from "lucide-react";
 import { Link } from "wouter";
 import type { LucideIcon } from "lucide-react";
@@ -17,30 +18,22 @@ const ICON_MAP: Record<string, LucideIcon> = {
   Users,
   Globe,
   Home,
-  shield: Shield,
   Shield,
-  landmark: Landmark,
   Landmark,
-  anchor: Anchor,
   Anchor,
-  building: Building,
   Building,
-  heart: Heart,
   Heart,
-  lightbulb: Lightbulb,
   Lightbulb,
-  umbrella: Umbrella,
   Umbrella,
-  gavel: Gavel,
   Gavel,
-  lock: Lock,
   Lock,
-  "hard-hat": HardHat,
   HardHat,
-  plane: Plane,
   Plane,
-  "trending-up": TrendingUp,
   TrendingUp,
+  Briefcase,
+  Star,
+  FileText,
+  ScrollText,
 };
 
 function getIcon(iconName: string | null | undefined): LucideIcon {
@@ -49,24 +42,30 @@ function getIcon(iconName: string | null | undefined): LucideIcon {
 }
 
 const CATEGORY_MAP: Record<number, string> = {
-  1: "litigation",
-  2: "corporate",
-  3: "corporate",
-  4: "corporate",
-  5: "litigation",
-  6: "litigation",
-  7: "litigation",
-  8: "corporate",
-  9: "specialist",
-  10: "corporate",
-  11: "specialist",
-  12: "specialist",
-  13: "specialist",
-  14: "litigation",
-  15: "specialist",
-  16: "litigation",
-  17: "specialist",
-  18: "corporate",
+  2: "litigation",   // Commercial Litigation
+  3: "corporate",    // Corporate Tax Advisory
+  4: "corporate",    // Business Setup & Licensing
+  5: "corporate",    // HR & Labour Compliance
+  6: "litigation",   // International Arbitration
+  7: "litigation",   // Real Estate Law
+  8: "corporate",    // Corporate Governance
+  9: "corporate",    // Banking & Finance
+  10: "specialist",  // Maritime & Shipping Law
+  11: "corporate",   // Mergers & Acquisitions
+  12: "specialist",  // Intellectual Property
+  13: "specialist",  // Data Protection & Privacy
+  14: "specialist",  // Construction & Infrastructure
+  15: "litigation",  // Criminal Defence (White Collar)
+  16: "specialist",  // Family & Personal Law
+  17: "specialist",  // Aviation Law
+  18: "corporate",   // Regulatory & Compliance
+  19: "specialist",  // Wills & Estate Planning
+  20: "specialist",  // Competition & Antitrust Law
+  21: "corporate",   // Islamic Finance & Sukuk
+  22: "corporate",   // Tax Disputes & FTA Representation
+  23: "specialist",  // Fintech, Digital Assets & Crypto Law
+  24: "specialist",  // Healthcare & Life Sciences Law
+  25: "corporate",   // Restructuring & Insolvency
 };
 
 import { useState } from "react";
@@ -86,13 +85,18 @@ export default function PracticeAreas() {
     { label: t("practiceAreas.specialist"), value: "specialist" },
   ];
 
-  const areasList: typeof areas = Array.isArray(areas) ? areas : (areas as any)?.data ?? [];
+  const areasList: any[] = Array.isArray(areas) ? areas : (areas as any)?.data ?? [];
   const filtered = areasList.filter((area) =>
     activeCategory === "all" ? true : CATEGORY_MAP[area.id] === activeCategory
   );
 
   return (
     <MainLayout>
+      <PageSEO
+        title="Practice Areas"
+        path="/practice-areas"
+        description="Full-spectrum legal services across UAE and Egypt: commercial litigation, corporate tax, business setup, international arbitration, real estate law, and HR compliance. Partner-led counsel from AED 500."
+      />
       {/* Hero */}
       <div className="relative py-32 overflow-hidden border-b border-border">
         <img src={heroOfficeImg} alt="" aria-hidden="true" className="absolute inset-0 w-full h-full object-cover opacity-20" />
@@ -184,20 +188,20 @@ export default function PracticeAreas() {
           <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-transparent pointer-events-none" />
           <div className="relative z-10 max-w-2xl mx-auto">
             <h2 className="text-2xl md:text-3xl font-serif font-bold mb-4">
-              Don't see your area of concern?
+              {t("practiceAreas.ctaTitle")}
             </h2>
             <p className="text-muted-foreground mb-8 leading-relaxed">
-              Our scope is broad. If your matter involves UAE or Egyptian law — or cross-border MENA issues — we very likely have the expertise. Contact us for a confidential assessment.
+              {t("practiceAreas.ctaDesc")}
             </p>
             <div className="flex flex-col sm:flex-row gap-4 justify-center">
               <Link href="/consultation">
                 <button className="h-12 px-8 bg-primary text-primary-foreground font-serif font-semibold hover:bg-primary/90 transition-colors">
-                  Book a Consultation
+                  {t("practiceAreas.bookBtn")}
                 </button>
               </Link>
               <Link href="/contact">
                 <button className="h-12 px-8 border border-border text-foreground font-semibold hover:border-primary/50 hover:text-primary transition-colors">
-                  Contact Us
+                  {t("common.contactUs")}
                 </button>
               </Link>
             </div>
