@@ -19,6 +19,7 @@ export default function About() {
   const leadership = [
     {
       img: marwanImg,
+      imgFit: "object-cover object-[center_18%]",
       name: t("about.team1Name"),
       title: t("about.team1Title"),
       location: t("about.team1Location"),
@@ -28,6 +29,8 @@ export default function About() {
     },
     {
       img: "/mohab-samy-clean.png",
+      imgFit: "object-contain object-bottom",
+      imgBg: "bg-gradient-to-b from-neutral-800 to-neutral-900",
       name: t("about.team5Name"),
       title: t("about.team5Title"),
       location: t("about.team5Location"),
@@ -37,6 +40,7 @@ export default function About() {
     },
     {
       img: leader2Img,
+      imgFit: "object-cover object-top",
       name: t("about.team2Name"),
       title: t("about.team2Title"),
       location: t("about.team2Location"),
@@ -46,6 +50,7 @@ export default function About() {
     },
     {
       img: leader3Img,
+      imgFit: "object-cover object-top",
       name: t("about.team3Name"),
       title: t("about.team3Title"),
       location: t("about.team3Location"),
@@ -55,6 +60,7 @@ export default function About() {
     },
     {
       img: leader4Img,
+      imgFit: "object-cover object-top",
       name: t("about.team4Name"),
       title: t("about.team4Title"),
       location: t("about.team4Location"),
@@ -165,11 +171,11 @@ export default function About() {
             {leadership.map((person, i) => (
               <SectionReveal key={person.name} delay={i * 100}>
                 <div className="group bg-card border border-border hover:border-primary/40 hover:shadow-xl hover:shadow-primary/5 transition-all duration-300 overflow-hidden flex flex-col md:flex-row">
-                  <div className="md:w-48 shrink-0 overflow-hidden bg-neutral-900" style={{ minHeight: "220px" }}>
+                  <div className={`md:w-48 shrink-0 overflow-hidden ${person.imgBg ?? "bg-neutral-900"}`} style={{ minHeight: "220px" }}>
                     <img
                       src={person.img}
                       alt={person.name}
-                      className="w-full h-56 md:h-full object-cover object-center grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out"
+                      className={`w-full h-56 md:h-full ${person.imgFit ?? "object-cover object-center"} grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out`}
                     />
                   </div>
                   <div className="p-7 flex flex-col justify-between flex-1">
