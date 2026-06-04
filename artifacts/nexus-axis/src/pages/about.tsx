@@ -49,7 +49,7 @@ export default function About() {
     },
     {
       img: leader3Img,
-      imgFit: "object-cover object-top", imgBg: "bg-neutral-900",
+      imgFit: "object-cover object-top", imgBg: "bg-neutral-900", extraImgClass: "brightness-125 contrast-110",
       name: t("about.team3Name"),
       title: t("about.team3Title"),
       location: t("about.team3Location"),
@@ -175,7 +175,7 @@ export default function About() {
                     <img
                       src={person.img}
                       alt={person.name}
-                      className={`w-full h-full ${person.imgFit ?? "object-cover object-center"} grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out`}
+                      className={`w-full h-full ${person.imgFit ?? "object-cover object-center"} grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out ${person.extraImgClass ?? ""}`}
                     />
                   </div>
                   <div className="p-7 flex flex-col justify-between flex-1">
@@ -219,7 +219,7 @@ export default function About() {
                       <img
                         src={person.img}
                         alt={person.name}
-                        className={`w-full h-full ${person.imgFit ?? "object-cover object-center"} grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out`}
+                        className={`w-full h-full ${person.imgFit ?? "object-cover object-center"} grayscale group-hover:grayscale-0 group-hover:scale-105 transition-all duration-700 ease-in-out ${person.extraImgClass ?? ""}`}
                       />
                     </div>
                     <div className="p-7 flex flex-col justify-between flex-1">
