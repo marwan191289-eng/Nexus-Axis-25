@@ -6,3 +6,9 @@ id = "tgDnspHpfm-RaQot0tKle"
 uri = "file://artifacts/nexus-axis/public/hero.png"
 type = "image"
 title = "Law firm dark abstract hero"
+
+[[generated]]
+id = "279dOewB-KGsyImOhzs5T"
+uri = "file://artifacts/nexus-axis/public/mohab-samy-clean.png"
+type = "image"
+title = "mohab-samy-professional-portrait"
