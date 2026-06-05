@@ -156,4 +156,4 @@ overrides:
   qs: ">=6.15.2"
 
 allowBuilds:
-  esbuild: set this to true or false
+  esbuild: true
