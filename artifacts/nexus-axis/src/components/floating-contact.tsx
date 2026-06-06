@@ -3,9 +3,10 @@ import { X, Calendar } from "lucide-react";
 import { Link } from "wouter";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
+import { SITE_CONFIG } from "@/config/site";
 
-const WHATSAPP_NUMBER = "971585592355";
-const WHATSAPP_DISPLAY = "+971 585 592 355";
+const WHATSAPP_NUMBER = SITE_CONFIG.contact.whatsapp.replace(/\D/g, "");
+const WHATSAPP_DISPLAY = SITE_CONFIG.contact.whatsapp;
 
 function WhatsAppIcon({ className = "h-5 w-5" }: { className?: string }) {
   return (

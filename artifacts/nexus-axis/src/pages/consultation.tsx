@@ -14,6 +14,24 @@ import { useLocation } from "wouter";
 import { Calendar, Clock, CreditCard } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
+interface PracticeArea {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  icon: string;
+  details: string;
+  order: number;
+}
+
+interface PracticeAreasResponse {
+  data: PracticeArea[];
+}
+
+interface CreateConsultationError {
+  error?: string;
+}
+
 const consultationSchema = z.object({
   clientName: z.string().min(2),
   clientEmail: z.string().email(),
@@ -35,7 +53,7 @@ export default function Consultation() {
   const { toast } = useToast();
   const [, setLocation] = useLocation();
   const { data: areasRaw } = useListPracticeAreas();
-  const areas = Array.isArray(areasRaw) ? areasRaw : (areasRaw as any)?.data ?? [];
+  const areas: PracticeArea[] = Array.isArray(areasRaw) ? areasRaw : (areasRaw as PracticeAreasResponse | undefined)?.data ?? [];
   const createConsultation = useCreateConsultation();
 
   const form = useForm<z.infer<typeof consultationSchema>>({
@@ -51,8 +69,8 @@ export default function Consultation() {
         toast({ title: t("consultation.requested"), description: t("consultation.requestedDesc") });
         setLocation("/portal");
       },
-      onError: (error: any) => {
-        toast({ title: "Error", description: error.error || "Failed to book consultation", variant: "destructive" });
+      onError: (error: CreateConsultationError) => {
+        toast({ title: "Error", description: error?.error || "Failed to book consultation", variant: "destructive" });
       }
     });
   };
@@ -114,7 +132,7 @@ export default function Consultation() {
                             </SelectTrigger>
                           </FormControl>
                           <SelectContent>
-                            {areas?.map((area: any) => (
+                            {areas?.map((area: PracticeArea) => (
                               <SelectItem key={area.id} value={area.id.toString()}>{area.title}</SelectItem>
                             ))}
                           </SelectContent>

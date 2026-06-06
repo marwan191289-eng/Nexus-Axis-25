@@ -2,14 +2,23 @@ import { MainLayout } from "@/components/layout/main-layout";
 import { PageSEO } from "@/components/page-seo";
 import { useListPracticeAreas } from "@workspace/api-client-react";
 import { Skeleton } from "@/components/ui/skeleton";
-import {
-  Scale, Calculator, Building2, Users, Globe, Home,
-  Shield, Landmark, Anchor, Heart, Lightbulb, Umbrella,
-  Gavel, Lock, HardHat, Plane, TrendingUp, Briefcase,
-  ChevronRight, Building, Star, FileText, ScrollText,
-} from "lucide-react";
+import { Scale, Calculator, Building2, Users, Globe, Hop as Home, Shield, Landmark, Anchor, Heart, Lightbulb, Umbrella, Gavel, Lock, HardHat, Plane, TrendingUp, Briefcase, ChevronRight, Building, Star, FileText, ScrollText } from "lucide-react";
 import { Link } from "wouter";
 import type { LucideIcon } from "lucide-react";
+
+interface PracticeArea {
+  id: number;
+  title: string;
+  slug: string;
+  description: string;
+  icon: string;
+  details: string;
+  order: number;
+}
+
+interface PracticeAreasResponse {
+  data: PracticeArea[];
+}
 
 const ICON_MAP: Record<string, LucideIcon> = {
   Scale,
@@ -85,8 +94,8 @@ export default function PracticeAreas() {
     { label: t("practiceAreas.specialist"), value: "specialist" },
   ];
 
-  const areasList: any[] = Array.isArray(areas) ? areas : (areas as any)?.data ?? [];
-  const filtered = areasList.filter((area) =>
+  const areasList: PracticeArea[] = Array.isArray(areas) ? areas : (areas as PracticeAreasResponse | undefined)?.data ?? [];
+  const filtered = areasList.filter((area: PracticeArea) =>
     activeCategory === "all" ? true : CATEGORY_MAP[area.id] === activeCategory
   );
 

@@ -7,6 +7,21 @@ import { format } from "date-fns";
 import { ArrowLeft, ArrowRight, Calendar, Mail, MessageSquare, Tag } from "lucide-react";
 import { useTranslation } from "react-i18next";
 
+interface BlogPost {
+  id: number;
+  title: string;
+  excerpt: string;
+  content: string;
+  category: string;
+  author: string;
+  publishedAt: string;
+  imageUrl?: string | null;
+}
+
+interface BlogPostsResponse {
+  data: BlogPost[];
+}
+
 function ArticleSkeleton() {
   return (
     <MainLayout>
@@ -38,12 +53,10 @@ export default function BlogPostDetail() {
   const params = useParams();
   const id = parseInt(params.id || "0", 10);
 
-  // @ts-ignore
   const { data: post, isLoading } = useGetBlogPost(id, { query: { enabled: !!id, queryKey: ["blog-post", id] } });
-  // @ts-ignore
   const { data: allPostsRaw } = useListBlogPosts(undefined, { query: { queryKey: ["blog-posts-sidebar"] } });
-  const allPosts = (Array.isArray(allPostsRaw) ? allPostsRaw : (allPostsRaw as any)?.data ?? []) as any[];
-  const related = allPosts.filter((p: any) => p.id !== id && p.category === post?.category).slice(0, 3);
+  const allPosts: BlogPost[] = (Array.isArray(allPostsRaw) ? allPostsRaw : (allPostsRaw as BlogPostsResponse | undefined)?.data ?? []);
+  const related = allPosts.filter((p: BlogPost) => p.id !== id && p.category === post?.category).slice(0, 3);
 
   if (isLoading) return <ArticleSkeleton />;
 
@@ -151,7 +164,7 @@ export default function BlogPostDetail() {
               <div className="mt-16">
                 <h2 className="text-xl font-serif font-bold mb-6 text-foreground">Related Insights</h2>
                 <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                  {related.map((rp: any) => (
+                  {related.map((rp: BlogPost) => (
                     <Link
                       key={rp.id}
                       href={`/blog/${rp.id}`}

@@ -3,13 +3,7 @@ import { Link, useLocation } from "wouter";
 import { useGetMe } from "@workspace/api-client-react";
 import { format } from "date-fns";
 import { motion, AnimatePresence } from "framer-motion";
-import {
-  LayoutDashboard, Users, CalendarClock, LogOut,
-  CheckCircle2, Clock, XCircle, TrendingUp, AlertCircle,
-  ChevronDown, Search, X, Calendar, Shield,
-  ArrowUpRight, RefreshCw, StickyNote, ChevronRight,
-  UserCog, Lock, Pencil, Trash2, Plus, FileText, BookOpen, Unlock,
-} from "lucide-react";
+import { LayoutDashboard, Users, CalendarClock, LogOut, CircleCheck as CheckCircle2, Clock, Circle as XCircle, TrendingUp, CircleAlert as AlertCircle, ChevronDown, Search, X, Calendar, Shield, ArrowUpRight, RefreshCw, StickyNote, ChevronRight, UserCog, Lock, Pencil, Trash2, Plus, FileText, BookOpen, Clock as Unlock } from "lucide-react";
 import { Skeleton } from "@/components/ui/skeleton";
 import logoPath from "@/assets/logo.svg";
 
@@ -106,7 +100,7 @@ function StatusDropdown({ consultation, onUpdate }: { consultation: Consultation
   const update = async (status: Status) => {
     setLoading(true); setOpen(false);
     try { const u = await apiFetch(`/admin/consultations/${consultation.id}`, { method: "PATCH", body: JSON.stringify({ status }) }); onUpdate(u); }
-    catch { /* noop */ }
+    catch (e: Error) { /* noop */ }
     setLoading(false);
   };
   return (
@@ -149,7 +143,7 @@ function ScheduleModal({ consultation, onClose, onUpdate }: { consultation: Cons
         body: JSON.stringify({ scheduledAt: value || null, status: value && consultation.status === "pending" ? "confirmed" : consultation.status }),
       });
       onUpdate(u); onClose();
-    } catch { /* noop */ }
+    } catch (e: Error) { /* noop */ }
     setSaving(false);
   };
   return (
@@ -200,7 +194,7 @@ function NotesEditor({ consultation, onUpdate }: { consultation: Consultation; o
   const save = async () => {
     setSaving(true);
     try { const u = await apiFetch(`/admin/consultations/${consultation.id}`, { method: "PATCH", body: JSON.stringify({ notes: draft || null }) }); onUpdate(u); setOpen(false); }
-    catch { /* noop */ }
+    catch (e: Error) { /* noop */ }
     setSaving(false);
   };
   return (
@@ -363,7 +357,7 @@ function BlogEditorPanel({ post, onClose, onSaved }: { post: Partial<AdminBlogPo
       const url = isNew ? "/admin/blog" : `/admin/blog/${post!.id}`;
       const saved = await apiFetch(url, { method: isNew ? "POST" : "PATCH", body: JSON.stringify(form) });
       onSaved(saved);
-    } catch (e: any) { setError(e.message ?? "Save failed"); }
+    } catch (e: Error) { setError(e.message ?? "Save failed"); }
     setSaving(false);
   };
 
@@ -474,7 +468,7 @@ function PracticeAreaEditorPanel({ area, onClose, onSaved }: { area: Partial<Adm
       const url = isNew ? "/admin/practice-areas" : `/admin/practice-areas/${area!.id}`;
       const saved = await apiFetch(url, { method: isNew ? "POST" : "PATCH", body: JSON.stringify(form) });
       onSaved(saved);
-    } catch (e: any) { setError(e.message ?? "Save failed"); }
+    } catch (e: Error) { setError(e.message ?? "Save failed"); }
     setSaving(false);
   };
 
@@ -552,7 +546,7 @@ function FirstAdminBanner({ onSuccess }: { onSuccess: () => void }) {
   const promote = async () => {
     setLoading(true); setError("");
     try { await apiFetch("/admin/setup", { method: "POST" }); onSuccess(); }
-    catch (e: any) { setError(e.message ?? "Failed"); }
+    catch (e: Error) { setError(e.message ?? "Failed"); }
     setLoading(false);
   };
   return (
@@ -625,7 +619,7 @@ export default function Admin() {
     try {
       const [s, c] = await Promise.all([apiFetch("/admin/stats"), apiFetch(`/admin/consultations?status=${statusFilter}`)]);
       setStats(s); setConsultations(c);
-    } catch { /* noop */ }
+    } catch (e: Error) { /* noop */ }
     setConsultLoading(false);
   }, [adminState, statusFilter]);
 
@@ -634,7 +628,7 @@ export default function Admin() {
     if (adminState !== "ok") return;
     setUsersLoading(true);
     try { const u = await apiFetch("/admin/users"); setUsers(u); }
-    catch { /* noop */ }
+    catch (e: Error) { /* noop */ }
     setUsersLoading(false);
   }, [adminState]);
 
@@ -643,7 +637,7 @@ export default function Admin() {
     if (adminState !== "ok") return;
     setBlogsLoading(true);
     try { const b = await apiFetch("/admin/blog"); setBlogs(b); }
-    catch { /* noop */ }
+    catch (e: Error) { /* noop */ }
     setBlogsLoading(false);
   }, [adminState]);
 
@@ -652,7 +646,7 @@ export default function Admin() {
     if (adminState !== "ok") return;
     setAreasLoading(true);
     try { const a = await apiFetch("/admin/practice-areas"); setAreas(a); }
-    catch { /* noop */ }
+    catch (e: Error) { /* noop */ }
     setAreasLoading(false);
   }, [adminState]);
 
@@ -677,7 +671,7 @@ export default function Admin() {
     try {
       const updated = await apiFetch(`/admin/users/${u.id}`, { method: "PATCH", body: JSON.stringify({ isAdmin: !u.isAdmin }) });
       setUsers(prev => prev.map(x => x.id === updated.id ? { ...x, isAdmin: updated.isAdmin } : x));
-    } catch { /* noop */ }
+    } catch (e: Error) { /* noop */ }
     setTogglingAdmin(null);
   };
 
@@ -685,7 +679,7 @@ export default function Admin() {
     if (!deletingBlog) return;
     setDeletingBlogLoading(true);
     try { await apiFetch(`/admin/blog/${deletingBlog.id}`, { method: "DELETE" }); setBlogs(prev => prev.filter(b => b.id !== deletingBlog.id)); setDeletingBlog(null); }
-    catch { /* noop */ }
+    catch (e: Error) { /* noop */ }
     setDeletingBlogLoading(false);
   };
 
@@ -693,7 +687,7 @@ export default function Admin() {
     if (!deletingArea) return;
     setDeletingAreaLoading(true);
     try { await apiFetch(`/admin/practice-areas/${deletingArea.id}`, { method: "DELETE" }); setAreas(prev => prev.filter(a => a.id !== deletingArea.id)); setDeletingArea(null); }
-    catch { /* noop */ }
+    catch (e: Error) { /* noop */ }
     setDeletingAreaLoading(false);
   };
 

@@ -7,12 +7,26 @@ import { useState } from "react";
 import { format } from "date-fns";
 import { useTranslation } from "react-i18next";
 
+interface BlogPost {
+  id: number;
+  title: string;
+  excerpt: string;
+  content: string;
+  category: string;
+  author: string;
+  publishedAt: string;
+  imageUrl?: string | null;
+}
+
+interface BlogPostsResponse {
+  data: BlogPost[];
+}
+
 export default function Blog() {
   const { t } = useTranslation();
   const [category, setCategory] = useState<string | undefined>();
-  // @ts-ignore
   const { data: postsRaw, isLoading } = useListBlogPosts(category ? { category } : undefined, { query: { queryKey: ["blog-posts", category] } });
-  const posts = Array.isArray(postsRaw) ? postsRaw : (postsRaw as any)?.data ?? [];
+  const posts: BlogPost[] = Array.isArray(postsRaw) ? postsRaw : (postsRaw as BlogPostsResponse | undefined)?.data ?? [];
 
   const categories = [
     { label: t("insights.all"), value: undefined },
@@ -68,7 +82,7 @@ export default function Blog() {
               <Skeleton key={i} className="h-96 bg-card border border-border" />
             ))
           ) : posts.length > 0 ? (
-            posts.map((post: any) => (
+            posts.map((post: BlogPost) => (
               <Link
                 key={post.id}
                 href={`/blog/${post.id}`}

@@ -26,28 +26,34 @@ const savedLang = typeof window !== "undefined"
   ? localStorage.getItem("nexus-lang") || "en"
   : "en";
 
-i18n.use(initReactI18next).init({
-  resources: {
-    en: { translation: en },
-    ar: { translation: ar },
-    fr: { translation: fr },
-    tr: { translation: tr },
-    ur: { translation: ur },
-    hi: { translation: hi },
-    tl: { translation: tl },
-    de: { translation: de },
-  },
-  lng: savedLang,
-  fallbackLng: "en",
-  interpolation: { escapeValue: false },
-});
-
-export function applyLanguageToDOM(lang: string) {
-  localStorage.setItem("nexus-lang", lang);
-  document.documentElement.lang = lang;
-  document.documentElement.dir = RTL_LANGS.has(lang) ? "rtl" : "ltr";
+if (typeof window !== "undefined") {
+  i18n.use(initReactI18next).init({
+    resources: {
+      en: { translation: en },
+      ar: { translation: ar },
+      fr: { translation: fr },
+      tr: { translation: tr },
+      ur: { translation: ur },
+      hi: { translation: hi },
+      tl: { translation: tl },
+      de: { translation: de },
+    },
+    lng: savedLang,
+    fallbackLng: "en",
+    interpolation: { escapeValue: false },
+  });
 }
 
-applyLanguageToDOM(savedLang);
+export function applyLanguageToDOM(lang: string) {
+  if (typeof window !== "undefined") {
+    localStorage.setItem("nexus-lang", lang);
+    document.documentElement.lang = lang;
+    document.documentElement.dir = RTL_LANGS.has(lang) ? "rtl" : "ltr";
+  }
+}
+
+if (typeof window !== "undefined") {
+  applyLanguageToDOM(savedLang);
+}
 
 export default i18n;

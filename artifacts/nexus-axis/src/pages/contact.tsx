@@ -16,6 +16,14 @@ import { useTranslation } from "react-i18next";
 const WHATSAPP_NUMBER = "971585592355";
 const EMAIL = "info@nexusaxisconsultants.com";
 
+interface SubmitContactResponse {
+  error?: string;
+}
+
+interface SubmitContactError {
+  error?: string;
+}
+
 function WhatsAppIcon({ className }: { className?: string }) {
   return (
     <svg viewBox="0 0 24 24" fill="currentColor" className={className} aria-hidden="true">
@@ -27,7 +35,6 @@ function WhatsAppIcon({ className }: { className?: string }) {
 export default function Contact() {
   const { t } = useTranslation();
   const { toast } = useToast();
-  // @ts-ignore
   const submitContact = useSubmitContact();
 
   const contactSchema = z.object({
@@ -49,8 +56,8 @@ export default function Contact() {
         toast({ title: t("contact.messageSent"), description: t("contact.messageSentDesc") });
         form.reset();
       },
-      onError: (err: any) => {
-        toast({ title: "Error", description: err.error || "Failed to send message", variant: "destructive" });
+      onError: (err: SubmitContactError) => {
+        toast({ title: "Error", description: err?.error || "Failed to send message", variant: "destructive" });
       }
     });
   };

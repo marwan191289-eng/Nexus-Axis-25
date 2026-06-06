@@ -1,4 +1,5 @@
 import { useEffect } from "react";
+import { SITE_CONFIG } from "@/config/site";
 
 interface PageSEOProps {
   title?: string;
@@ -11,9 +12,6 @@ interface PageSEOProps {
   noSuffix?: boolean;
 }
 
-const SITE_NAME = "Nexus Axis Consultants";
-const BASE_URL = "https://nexusaxisconsultants.com";
-const DEFAULT_IMAGE = `${BASE_URL}/opengraph.jpg`;
 const DEFAULT_DESC =
   "Premier boutique law firm serving UAE and Egypt since 2009. Commercial litigation, corporate tax, international arbitration & more. Consultation from AED 500.";
 
@@ -42,7 +40,7 @@ export function PageSEO({
   title,
   description = DEFAULT_DESC,
   path,
-  image = DEFAULT_IMAGE,
+  image = SITE_CONFIG.ogImage,
   type = "website",
   publishedAt,
   author,
@@ -50,12 +48,12 @@ export function PageSEO({
 }: PageSEOProps) {
   useEffect(() => {
     const fullTitle = noSuffix
-      ? (title ?? SITE_NAME)
+      ? (title ?? SITE_CONFIG.name)
       : title
-      ? `${title} — ${SITE_NAME}`
-      : `${SITE_NAME} | Boutique Law Firm — UAE & Egypt`;
-    const fullUrl = path ? `${BASE_URL}${path}` : BASE_URL;
-    const imgUrl = image.startsWith("http") ? image : `${BASE_URL}${image}`;
+      ? `${title} — ${SITE_CONFIG.name}`
+      : `${SITE_CONFIG.name} | Boutique Law Firm — UAE & Egypt`;
+    const fullUrl = path ? `${SITE_CONFIG.baseUrl}${path}` : SITE_CONFIG.baseUrl;
+    const imgUrl = image.startsWith("http") ? image : `${SITE_CONFIG.baseUrl}${image}`;
 
     document.title = fullTitle;
     setLink("canonical", fullUrl);
@@ -75,7 +73,7 @@ export function PageSEO({
     if (author) setMeta(`meta[name="author"]`, author);
 
     return () => {
-      document.title = `${SITE_NAME} | Boutique Law Firm — UAE & Egypt`;
+      document.title = `${SITE_CONFIG.name} | Boutique Law Firm — UAE & Egypt`;
     };
   }, [title, description, path, image, type, publishedAt, author, noSuffix]);
 

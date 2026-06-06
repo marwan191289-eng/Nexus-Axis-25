@@ -4,16 +4,12 @@ import { Skeleton } from "@/components/ui/skeleton";
 import { format, formatDistanceToNow } from "date-fns";
 import { useLocation, Link } from "wouter";
 import { useEffect, useState } from "react";
-import {
-  FileText, CalendarClock, Plus, Clock, CheckCircle2,
-  AlertCircle, XCircle, Scale, ChevronRight, User, Mail,
-  Phone, Calendar, TrendingUp, LayoutList,
-} from "lucide-react";
+import { FileText, CalendarClock, Plus, Clock, CircleCheck as CheckCircle2, CircleAlert as AlertCircle, Circle as XCircle, Scale, ChevronRight, User, Mail, Phone, Calendar, TrendingUp, LayoutList } from "lucide-react";
 import { useTranslation } from "react-i18next";
 import { motion, AnimatePresence } from "framer-motion";
 import { SectionReveal } from "@/components/section-reveal";
 
-type Consultation = {
+interface Consultation {
   id: number;
   practiceAreaTitle?: string | null;
   status: "pending" | "confirmed" | "completed" | "cancelled";
@@ -25,7 +21,11 @@ type Consultation = {
   clientName: string;
   clientEmail: string;
   clientPhone?: string | null;
-};
+}
+
+interface ConsultationsResponse {
+  data: Consultation[];
+}
 
 type TabKey = "all" | "active" | "completed" | "cancelled";
 
@@ -269,7 +269,7 @@ export default function Portal() {
 
   const consultations: Consultation[] = Array.isArray(rawConsultations)
     ? rawConsultations
-    : (rawConsultations as any)?.data ?? [];
+    : (rawConsultations as ConsultationsResponse | undefined)?.data ?? [];
 
   /* Stats */
   const total = consultations.length;
