@@ -1,6 +1,13 @@
 import { createRoot } from "react-dom/client";
 import App from "./App";
 import "./index.css";
-import "./i18n/index";
+import { loadI18n } from "./i18n/index";
 
-createRoot(document.getElementById("root")!).render(<App />);
+const root = createRoot(document.getElementById("root")!);
+
+loadI18n().then(() => {
+  root.render(<App />);
+}).catch((err) => {
+  console.error("Failed to load i18n:", err);
+  root.render(<App />);
+});

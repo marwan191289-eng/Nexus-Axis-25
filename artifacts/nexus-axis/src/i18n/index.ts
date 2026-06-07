@@ -12,42 +12,48 @@ export const LANGUAGES = [
 ];
 
 let i18nInstance: any = null;
+let initPromise: Promise<any> | null = null;
 
-async function loadI18n() {
+export async function loadI18n() {
   if (i18nInstance) return i18nInstance;
+  if (initPromise) return initPromise;
 
-  const i18n = await import("i18next");
-  const { initReactI18next } = await import("react-i18next");
-  const en = await import("./locales/en");
-  const ar = await import("./locales/ar");
-  const fr = await import("./locales/fr");
-  const tr = await import("./locales/tr");
-  const ur = await import("./locales/ur");
-  const hi = await import("./locales/hi");
-  const tl = await import("./locales/tl");
-  const de = await import("./locales/de");
+  initPromise = (async () => {
+    const i18n = await import("i18next");
+    const { initReactI18next } = await import("react-i18next");
+    const en = await import("./locales/en");
+    const ar = await import("./locales/ar");
+    const fr = await import("./locales/fr");
+    const tr = await import("./locales/tr");
+    const ur = await import("./locales/ur");
+    const hi = await import("./locales/hi");
+    const tl = await import("./locales/tl");
+    const de = await import("./locales/de");
 
-  const savedLang = typeof window !== "undefined" ? localStorage.getItem("nexus-lang") || "en" : "en";
+    const savedLang = typeof window !== "undefined" ? localStorage.getItem("nexus-lang") || "en" : "en";
 
-  i18nInstance = i18n.default;
-  i18nInstance.use(initReactI18next).init({
-    resources: {
-      en: { translation: en.default },
-      ar: { translation: ar.default },
-      fr: { translation: fr.default },
-      tr: { translation: tr.default },
-      ur: { translation: ur.default },
-      hi: { translation: hi.default },
-      tl: { translation: tl.default },
-      de: { translation: de.default },
-    },
-    lng: savedLang,
-    fallbackLng: "en",
-    interpolation: { escapeValue: false },
-  });
+    i18nInstance = i18n.default;
+    await i18nInstance.use(initReactI18next).init({
+      resources: {
+        en: { translation: en.default },
+        ar: { translation: ar.default },
+        fr: { translation: fr.default },
+        tr: { translation: tr.default },
+        ur: { translation: ur.default },
+        hi: { translation: hi.default },
+        tl: { translation: tl.default },
+        de: { translation: de.default },
+      },
+      lng: savedLang,
+      fallbackLng: "en",
+      interpolation: { escapeValue: false },
+    });
 
-  applyLanguageToDOM(savedLang);
-  return i18nInstance;
+    applyLanguageToDOM(savedLang);
+    return i18nInstance;
+  })();
+
+  return initPromise;
 }
 
 export function applyLanguageToDOM(lang: string) {
@@ -56,10 +62,6 @@ export function applyLanguageToDOM(lang: string) {
     document.documentElement.lang = lang;
     document.documentElement.dir = RTL_LANGS.has(lang) ? "rtl" : "ltr";
   }
-}
-
-if (typeof window !== "undefined") {
-  loadI18n().catch(console.error);
 }
 
 export default i18nInstance || {};

@@ -147,7 +147,7 @@ export function Footer() {
 
             {/* Social Media Icons */}
             <div className="pt-2">
-              <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60 font-semibold mb-3">Follow Us</p>
+              <p className="text-[10px] uppercase tracking-[0.2em] text-muted-foreground/60 font-semibold mb-3">{t("footer.followUs")}</p>
               <div className="flex flex-wrap gap-2">
                 {SOCIAL_LINKS.map(({ label, href, Icon, color }) => (
                   <a
